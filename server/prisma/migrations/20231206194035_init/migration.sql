@@ -2,7 +2,7 @@
 CREATE TABLE "User" (
     "id" SERIAL NOT NULL,
     "email" TEXT NOT NULL,
-    "passsword" TEXT NOT NULL,
+    "password" TEXT NOT NULL,
     "fName" TEXT NOT NULL,
     "lName" TEXT NOT NULL,
 

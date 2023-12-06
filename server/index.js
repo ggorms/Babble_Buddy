@@ -13,7 +13,7 @@ app.use(express.urlencoded({ limit: "50mb", extended: true }));
 
 app.use("/socket", require("./socket"));
 
-app.use("auth", require("./auth"));
+app.use("/auth", require("./auth"));
 
 app.listen(8080, () => {
   console.log("SERVER RUNNING ON PORT 8080");
