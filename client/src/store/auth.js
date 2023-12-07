@@ -37,10 +37,10 @@ export const loginThunk = (credentials) => async (dispatch) => {
       password,
     });
 
-    const token = data;
+    const token = data.token;
 
     if (!sessionStorage.getItem("token")) {
-      sessionStorage.setItem("token", token);
+      sessionStorage.setItem("token", JSON.stringify(token));
     }
 
     return dispatch(login(token));
