@@ -15,6 +15,18 @@ const users = [
     email: "gary@gmail.com",
     password: "test",
   },
+  {
+    fName: "John",
+    lName: "Miller",
+    email: "john@gmail.com",
+    password: "test",
+  },
+  {
+    fName: "Sara",
+    lName: "Smith",
+    email: "sara@gmail.com",
+    password: "test",
+  },
 ];
 
 async function main() {
