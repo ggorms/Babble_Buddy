@@ -8,9 +8,42 @@ datasource db {
 }
 
 model User {
-  id       Int    @id @default(autoincrement())
-  email    String @unique
-  password String
-  fName    String
-  lName    String
+  id               Int                @id @default(autoincrement())
+  email            String             @unique
+  password         String
+  fName            String
+  lName            String
+  Message          Message[]
+  // Sender   Conversation[] @relation("Sender")
+  // Receiver Conversation[] @relation("Receiver")
+  UserConversation UserConversation[]
+}
+
+model UserConversation {
+  userId         Int
+  user           User         @relation(fields: [userId], references: [id])
+  conversationId Int
+  conversation   Conversation @relation(fields: [conversationId], references: [id])
+
+  @@id([userId, conversationId])
+}
+
+model Conversation {
+  id               Int                @id @default(autoincrement())
+  // senderId   Int
+  // sender     User      @relation("Sender", fields: [senderId], references: [id])
+  // receiverId Int
+  // receiver   User      @relation("Receiver", fields: [receiverId], references: [id])
+  Message          Message[]
+  UserConversation UserConversation[]
+}
+
+model Message {
+  id             Int          @id @default(autoincrement())
+  text           String
+  conversationId Int
+  conversation   Conversation @relation(fields: [conversationId], references: [id])
+  senderId       Int
+  sender         User         @relation(fields: [senderId], references: [id])
+  date           DateTime
 }

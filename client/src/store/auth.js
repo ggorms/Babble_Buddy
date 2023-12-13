@@ -41,6 +41,15 @@ export const loginThunk = (credentials) => async (dispatch) => {
 
     if (!sessionStorage.getItem("token")) {
       sessionStorage.setItem("token", JSON.stringify(token));
+      sessionStorage.setItem(
+        "UserInfo",
+        JSON.stringify({
+          userId: data.id,
+          fName: data.fName,
+          lName: data.lName,
+          email: data.email,
+        })
+      );
     }
 
     return dispatch(login(token));

@@ -5,17 +5,18 @@ function Home() {
   const dispatch = useDispatch();
   const users = useSelector((state) => state.user.allUsers);
 
+  const me = sessionStorage.getItem("UserInfo")
+    ? JSON.parse(sessionStorage.getItem("UserInfo"))
+    : "";
+
+  console.log(me);
   useEffect(() => {
     dispatch(allUsersThunk());
   }, []);
   return (
     <div>
+      <h1>{me.fName}</h1>
       <h2>Welcome to the home page</h2>
-      {users.map((user) => (
-        <div key={user.id}>
-          <h2>{user.email}</h2>
-        </div>
-      ))}
     </div>
   );
 }
