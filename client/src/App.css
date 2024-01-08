@@ -3,6 +3,7 @@
 @import "./style/messenger.css";
 @import "./style/conversation.css";
 @import "./style/message.css";
+@import "./style/chatOnline.css";
 .App {
   width: 100vw;
   height: 100vh;

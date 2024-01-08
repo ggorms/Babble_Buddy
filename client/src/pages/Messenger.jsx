@@ -1,3 +1,4 @@
+import ChatOnline from "../components/ChatOnline";
 import Conversation from "../components/Conversation";
 import Message from "../components/Message";
 
@@ -27,7 +28,9 @@ function Messenger() {
         </div>
       </div>
       <div className="chatOnline">
-        <div className="chatOnlineWrapper">Online</div>
+        <div className="chatOnlineWrapper">
+          <ChatOnline />
+        </div>
       </div>
     </div>
   );
