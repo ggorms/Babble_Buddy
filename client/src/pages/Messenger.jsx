@@ -1,14 +1,40 @@
 import ChatOnline from "../components/ChatOnline";
 import Conversation from "../components/Conversation";
 import Message from "../components/Message";
+import { useState, useEffect } from "react";
+import { userConversationsThunk } from "../store/conversation";
+import { useDispatch, useSelector } from "react-redux";
 
 function Messenger() {
+  const dispatch = useDispatch();
+  const user = window.sessionStorage.getItem("userInfo")
+    ? JSON.parse(window.sessionStorage.getItem("userInfo"))
+    : "";
+
+  // console.log("userInfo: ", user);
+
+  const conversations = useSelector(
+    (state) => state.conversation.userConversations
+  );
+
+  console.log("convos:", conversations);
+
+  useEffect(() => {
+    dispatch(userConversationsThunk(user.userId));
+  }, [user.userId, dispatch]);
+
   return (
     <div className="messenger">
       <div className="chatMenu">
         <div className="chatMenuWrapper">
           <input placeholder="Search for friends" className="chatMenuInput" />
-          <Conversation />
+          {conversations.map((convo) => (
+            <Conversation
+              key={convo.id}
+              conversation={convo}
+              currentUser={user}
+            />
+          ))}
         </div>
       </div>
       <div className="chatBox">

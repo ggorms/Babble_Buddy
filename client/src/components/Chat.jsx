@@ -36,17 +36,17 @@ function Chat() {
     }
   };
 
-  useEffect(() => {
-    socket.on("receive_message", (data) => {
-      setMessageHistory((history) => [...history, data]);
-    });
-    return () => socket.removeListener("receive_message");
-  }, [socket]);
+  // useEffect(() => {
+  //   socket.on("receive_message", (data) => {
+  //     setMessageHistory((history) => [...history, data]);
+  //   });
+  //   return () => socket.removeListener("receive_message");
+  // }, [socket]);
 
-  useEffect(() => {
-    if (!chatBox.current) return;
-    chatBox.current.scrollIntoView(false);
-  }, [messageHistory]);
+  // useEffect(() => {
+  //   if (!chatBox.current) return;
+  //   chatBox.current.scrollIntoView(false);
+  // }, [messageHistory]);
   return (
     <div className="App">
       {!showChat ? (

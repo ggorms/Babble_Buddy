@@ -30,10 +30,31 @@ router.post("/new", async (req, res, next) => {
   }
 });
 
+// router.get("/:id", async (req, res, next) => {
+//   try {
+//     const { id } = req.params;
+//     const userConversations = await prisma.conversation.findMany({
+//       include: {
+//         UserConversation: {
+//           where: {
+//             userId: +id,
+//           },
+//         },
+//       },
+//     });
+//     res.status(200).json(userConversations);
+//   } catch (error) {
+//     console.error(error.message);
+//     next(error);
+//   }
+// });
+
 router.get("/:id", async (req, res, next) => {
   try {
+    // userId from request
     const { id } = req.params;
-    const userConversations = await prisma.conversation.findMany({
+    // Find all conversations the user is apart of
+    const conversations = await prisma.conversation.findMany({
       include: {
         UserConversation: {
           where: {
@@ -42,7 +63,22 @@ router.get("/:id", async (req, res, next) => {
         },
       },
     });
-    res.status(200).json(userConversations);
+
+    // Find all members of the conversation
+    const convoMembers = await prisma.conversation.findMany({
+      include: {
+        UserConversation: {
+          where: {
+            conversationId: conversations.id,
+          },
+          include: {
+            user: true,
+          },
+        },
+      },
+    });
+
+    res.status(200).json(convoMembers);
   } catch (error) {
     console.error(error.message);
     next(error);
