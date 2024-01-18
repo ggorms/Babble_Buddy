@@ -85,6 +85,7 @@ export const registerThunk = (credentials) => async (dispatch) => {
 export const logoutThunk = () => async (dispatch) => {
   if (sessionStorage.getItem("token")) {
     sessionStorage.removeItem("token");
+    sessionStorage.removeItem("userInfo");
   }
   return dispatch(
     logout({

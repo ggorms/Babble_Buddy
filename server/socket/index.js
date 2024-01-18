@@ -1,41 +1,51 @@
 const express = require("express");
 const router = express.Router();
-const { PrismaClient } = require("@prisma/client");
-const prisma = new PrismaClient();
-
-const http = require("http");
-const { Server } = require("socket.io");
-
-port = 8081;
-
-const server = http.createServer(router);
-
-const io = new Server(server, {
+const io = require("socket.io")(8081, {
   cors: {
     origin: "http://localhost:5173",
-    methods: ["GET", "POST"],
   },
 });
 
-io.on("connection", (socket) => {
-  console.log(`User Connected: ${socket.id}`);
+let users = [];
 
-  socket.on("join_room", (room) => {
-    socket.join(room);
-    console.log(`User ${socket.id} has joined room ${room}`);
+const addUser = (userId, socketId) => {
+  !users.some((user) => user.userId === userId) &&
+    users.push({ userId, socketId });
+};
+
+const removeUser = (socketId) => {
+  users = users.filter((user) => user.socketId !== socketId);
+};
+
+const getUser = (userId) => {
+  return users.find((user) => user.userId === userId);
+};
+
+io.on("connection", (socket) => {
+  // On Connection
+  console.log("a user has connected", socket.id);
+  // take userId and socketId from user
+  socket.on("addUser", (userId) => {
+    addUser(userId, socket.id);
+    io.emit("getUsers", users);
+    console.log(users);
   });
 
-  socket.on("send_message", (data) => {
-    socket.to(data.room).emit("receive_message", data);
+  // Send and Get message
+  socket.on("sendMessage", ({ senderId, receiverId, text }) => {
+    const user = getUser(receiverId);
+    io.to(user?.socketId).emit("getMessage", {
+      senderId,
+      text,
+    });
   });
 
   socket.on("disconnect", () => {
-    console.log(`User Disconnected: ${socket.id}`);
+    // On Disconnection
+    console.log("a user disconnected", socket.id);
+    removeUser(socket.id);
+    io.emit("getUsers", users);
   });
-});
-
-server.listen(port, () => {
-  console.log(`SOCKET RUNNING ON PORT ${port}`);
 });
 
 module.exports = router;

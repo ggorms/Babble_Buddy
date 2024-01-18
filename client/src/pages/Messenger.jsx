@@ -5,44 +5,88 @@ import { useState, useEffect, useRef } from "react";
 import { userConversationsThunk } from "../store/conversation";
 import { useDispatch, useSelector } from "react-redux";
 import { conversationMessagesThunk, newMessageThunk } from "../store/message";
+import { io } from "socket.io-client";
 
 function Messenger() {
   const [currentChat, setCurrentChat] = useState(null);
   const [newMessage, setNewMessage] = useState("");
+  const [arrivalMessage, setArrivalMessage] = useState(null);
   const dispatch = useDispatch();
   const scrollRef = useRef();
+  const socket = useRef();
 
   const user = window.sessionStorage.getItem("userInfo")
     ? JSON.parse(window.sessionStorage.getItem("userInfo"))
     : "";
+  const messages = useSelector((state) => state.message.conversationMessages);
 
-  // console.log("userInfo: ", user);
+  useEffect(() => {
+    if (!socket.current) {
+      socket.current = io("ws://localhost:8081");
+    }
+    socket.current.on("getMessage", (data) => {
+      setArrivalMessage({
+        text: data.text,
+        // conversationId: currentChat?.id,
+        senderId: data.senderId,
+      });
+    });
+  }, []);
+
+  console.log("arrivalMessage", arrivalMessage);
+
+  useEffect(() => {
+    if (
+      arrivalMessage &&
+      currentChat?.UserConversation.some(
+        (member) => member.userId === arrivalMessage.senderId
+      )
+    ) {
+      dispatch(conversationMessagesThunk(currentChat?.id));
+    }
+  }, [arrivalMessage, currentChat]);
+  useEffect(() => {
+    socket.current.emit("addUser", user.userId);
+    // socket.current.on("getUsers", (users) => {
+    //   console.log(users);
+    // });
+  }, [user]);
 
   const conversations = useSelector(
     (state) => state.conversation.userConversations
   );
-
+  // console.log("convos", conversations);
   // console.log("convos:", conversations);
 
   useEffect(() => {
     dispatch(userConversationsThunk(user.userId));
   }, [user.userId, dispatch]);
 
-  const messages = useSelector((state) => state.message.conversationMessages);
-
-  // console.log("messages", messages);
-  // console.log("currChat", currentChat);
+  console.log("currChat", currentChat);
 
   const handleSubmitMessage = (e) => {
     e.preventDefault();
+
+    const receiverId = currentChat.UserConversation.find(
+      (member) => member.userId !== user.userId
+    );
+
     const message = {
       text: newMessage,
       senderId: user.userId,
       conversationId: currentChat?.id,
     };
-    dispatch(newMessageThunk(message)).then(() => {
-      dispatch(conversationMessagesThunk(currentChat?.id));
-    });
+    dispatch(newMessageThunk(message))
+      .then(() => {
+        dispatch(conversationMessagesThunk(currentChat?.id));
+      })
+      .then(() => {
+        socket.current.emit("sendMessage", {
+          senderId: user.userId,
+          receiverId: receiverId.userId,
+          text: newMessage,
+        });
+      });
     setNewMessage("");
   };
 

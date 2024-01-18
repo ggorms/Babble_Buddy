@@ -7,7 +7,7 @@ function Conversation({ conversation, currentUser }) {
   const friendId = conversation.UserConversation.find(
     (member) => member.userId !== currentUser.userId
   );
-  console.log("friendId", friendId);
+  // console.log("friendId", friendId);
 
   return (
     <div className="conversation">
