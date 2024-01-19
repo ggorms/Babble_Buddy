@@ -3,6 +3,7 @@ const router = express.Router();
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
+// Create new conversation
 router.post("/new", async (req, res, next) => {
   try {
     const { senderId, receiverId } = req.body;
@@ -30,6 +31,7 @@ router.post("/new", async (req, res, next) => {
   }
 });
 
+// Get all conversations user is apart of
 router.get("/:id", async (req, res, next) => {
   try {
     // userId from request
@@ -55,6 +57,42 @@ router.get("/:id", async (req, res, next) => {
     });
 
     res.status(200).json(convoMembers);
+  } catch (error) {
+    console.error(error.message);
+    next(error);
+  }
+});
+
+// Get conversation based on two users
+
+router.get("/find/:userId/:friendId", async (req, res, next) => {
+  const { userId, friendId } = req.params;
+  // Find conversations the user is apart of
+  try {
+    const userConversations = await prisma.userConversation.findMany({
+      where: {
+        userId: +userId,
+      },
+    });
+
+    // Find the conversation that the friend is also apart of
+
+    const conversation = await prisma.conversation.findFirst({
+      where: {
+        UserConversation: {
+          some: {
+            userId: +friendId,
+            conversationId: {
+              in: userConversations.map(
+                (userConvo) => userConvo.conversationId
+              ),
+            },
+          },
+        },
+      },
+    });
+
+    res.status(200).json(conversation);
   } catch (error) {
     console.error(error.message);
     next(error);

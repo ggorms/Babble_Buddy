@@ -14,9 +14,18 @@ model User {
   fName            String
   lName            String
   Message          Message[]
-  // Sender   Conversation[] @relation("Sender")
-  // Receiver Conversation[] @relation("Receiver")
   UserConversation UserConversation[]
+  user             UserRelationship[] @relation("user")
+  following        UserRelationship[] @relation("following")
+}
+
+model UserRelationship {
+  userId      Int
+  user        User @relation("user", fields: [userId], references: [id])
+  followingId Int
+  following   User @relation("following", fields: [followingId], references: [id])
+
+  @@id([userId, followingId])
 }
 
 model UserConversation {
@@ -30,10 +39,6 @@ model UserConversation {
 
 model Conversation {
   id               Int                @id @default(autoincrement())
-  // senderId   Int
-  // sender     User      @relation("Sender", fields: [senderId], references: [id])
-  // receiverId Int
-  // receiver   User      @relation("Receiver", fields: [receiverId], references: [id])
   Message          Message[]
   UserConversation UserConversation[]
 }

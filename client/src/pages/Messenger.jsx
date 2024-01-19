@@ -11,6 +11,7 @@ function Messenger() {
   const [currentChat, setCurrentChat] = useState(null);
   const [newMessage, setNewMessage] = useState("");
   const [arrivalMessage, setArrivalMessage] = useState(null);
+  const [onlineUsers, setOnlineUsers] = useState([]);
   const dispatch = useDispatch();
   const scrollRef = useRef();
   const socket = useRef();
@@ -33,7 +34,7 @@ function Messenger() {
     });
   }, []);
 
-  console.log("arrivalMessage", arrivalMessage);
+  // console.log("arrivalMessage", arrivalMessage);
 
   useEffect(() => {
     if (
@@ -47,15 +48,17 @@ function Messenger() {
   }, [arrivalMessage, currentChat]);
   useEffect(() => {
     socket.current.emit("addUser", user.userId);
-    // socket.current.on("getUsers", (users) => {
-    //   console.log(users);
-    // });
-  }, [user]);
+    socket.current.on("getUsers", (users) => {
+      setOnlineUsers(users);
+    });
+  }, [user.userId]);
+
+  // console.log("oUser", onlineUsers);
 
   const conversations = useSelector(
     (state) => state.conversation.userConversations
   );
-  // console.log("convos", conversations);
+  // console.log("currChat", currentChat);
   // console.log("convos:", conversations);
 
   useEffect(() => {
@@ -148,7 +151,12 @@ function Messenger() {
       </div>
       <div className="chatOnline">
         <div className="chatOnlineWrapper">
-          <ChatOnline />
+          <ChatOnline
+            onlineUsers={onlineUsers}
+            currentUserId={user.userId}
+            setCurrentChat={setCurrentChat}
+            currentChat={currentChat}
+          />
         </div>
       </div>
     </div>

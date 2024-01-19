@@ -10,6 +10,14 @@ CREATE TABLE "User" (
 );
 
 -- CreateTable
+CREATE TABLE "UserRelationship" (
+    "userId" INTEGER NOT NULL,
+    "followingId" INTEGER NOT NULL,
+
+    CONSTRAINT "UserRelationship_pkey" PRIMARY KEY ("userId","followingId")
+);
+
+-- CreateTable
 CREATE TABLE "UserConversation" (
     "userId" INTEGER NOT NULL,
     "conversationId" INTEGER NOT NULL,
@@ -37,6 +45,12 @@ CREATE TABLE "Message" (
 
 -- CreateIndex
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
+
+-- AddForeignKey
+ALTER TABLE "UserRelationship" ADD CONSTRAINT "UserRelationship_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "UserRelationship" ADD CONSTRAINT "UserRelationship_followingId_fkey" FOREIGN KEY ("followingId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "UserConversation" ADD CONSTRAINT "UserConversation_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
