@@ -101,6 +101,15 @@ function Messenger() {
     scrollRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
+  const conversation = useSelector(
+    (state) => state.conversation.userAndFriendConversation
+  );
+
+  useEffect(() => {
+    dispatch(conversationMessagesThunk(conversation.id)).then(() => {
+      setCurrentChat(conversation);
+    });
+  }, [conversation, dispatch]);
   return (
     <div className="messenger">
       <div className="chatMenu">
@@ -154,7 +163,6 @@ function Messenger() {
           <ChatOnline
             onlineUsers={onlineUsers}
             currentUserId={user.userId}
-            setCurrentChat={setCurrentChat}
             currentChat={currentChat}
           />
         </div>

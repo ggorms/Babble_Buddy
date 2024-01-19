@@ -5,20 +5,13 @@ import { useSelector, useDispatch } from "react-redux";
 import { userAndFriendConversationThunk } from "../store/conversation";
 import { conversationMessagesThunk } from "../store/message";
 
-function ChatOnline({ onlineUsers, currentUserId, setCurrentChat }) {
+function ChatOnline({ onlineUsers, currentUserId }) {
   const dispatch = useDispatch();
   const [onlineFriends, setOnlineFriends] = useState([]);
   const userFollowingList = useSelector(
     (state) => state.user.userFollowingList
   );
 
-  // console.log("onlineUsers", onlineUsers);
-
-  const conversation = useSelector(
-    (state) => state.conversation.userAndFriendConversation
-  );
-
-  // console.log("convo", conversation);
   useEffect(() => {
     dispatch(userFollowingListThunk(currentUserId));
   }, [currentUserId]);
@@ -33,20 +26,13 @@ function ChatOnline({ onlineUsers, currentUserId, setCurrentChat }) {
     );
   }, [userFollowingList, onlineUsers]);
 
-  // console.log("followingList", userFollowingList);
-  console.log("onlineFriends", onlineFriends);
-
   const handleClick = (friend) => {
     const members = {
       userId: currentUserId,
       friendId: friend.following.id,
     };
 
-    dispatch(userAndFriendConversationThunk(members)).then(() => {
-      setCurrentChat(conversation);
-
-      console.log("test", conversation);
-    });
+    dispatch(userAndFriendConversationThunk(members));
   };
 
   return (
