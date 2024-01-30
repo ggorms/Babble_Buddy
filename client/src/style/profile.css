@@ -1,7 +1,11 @@
 .profileCardWrapper{
     display: flex;
     justify-content: center;
-    margin-top: 10px;
+    margin: 20px 10px;
+    border-radius: 8px;
+    box-shadow: 0.5px 0.5px 0.5px 1px lightgray;
+    background-color: white;
+    padding: 10px 0;
 }
 
 .profilePicture {
@@ -13,17 +17,46 @@
 .profileName {
     padding-top: 10px;
     margin-left: 25px;
+    font-size: x-large;
 }
 
 .followingList {
-    margin: 20px 25px;
+    margin: 20px 10px;
+    background-color: white;
+    box-shadow: 0.5px 0.5px 0.5px 1px lightgray;
+    border-radius: 8px;
+    height: 190px;
+}
+
+.followingTitle {
+    padding-left: 9px;
+    padding-top: 9px;
+    padding-bottom: 4px;
+    font-size: large;
+}
+
+.followingEntryContainer {
+    display: flex;
+    align-items: center;
+}
+
+.followingContainer {
+    margin-top: 3px;
+    height: 188px;
+    overflow-y: auto;
+}
+
+.followingLink {
+    text-decoration: none;
+    color: black;
 }
 
 .followingListEntry {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    margin: 7px 0;
     padding: 5px;
+    border-radius: 8px;
 }
 
 .followingButton {
@@ -37,11 +70,24 @@
     font-weight: bold;
     text-decoration: none;
     background-color: rgb(62, 129, 246);
+    cursor: pointer;
 }
-
-.followingButton:hover {
+.followingButton:hover, .followingEntryButton:hover {
     background-color: rgb(33, 112, 250);;
 }
+
+.followingEntryButton {
+    margin-right: 10px;
+    width: 75px;
+    height: 25px;
+    background-color: rgb(62, 129, 246);
+    font-weight: bold;
+    border-radius: 8px;
+    border: none;
+    color: white;
+    cursor: pointer;
+}
+
 
 .followingListEntry:hover {
     box-shadow: 1px 1px 2px 1px gray;

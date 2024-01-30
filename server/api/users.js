@@ -44,11 +44,27 @@ router.get("/:id", async (req, res, next) => {
       },
     });
 
+    const userFollowers = await prisma.userRelationship.findMany({
+      where: {
+        followingId: user.id,
+      },
+      select: {
+        user: {
+          select: {
+            id: true,
+            fName: true,
+            lName: true,
+          },
+        },
+      },
+    });
+
     const sinlgeUser = {
       id: user.id,
       fName: user.fName,
       lName: user.lName,
       following: userFollowings,
+      followers: userFollowers,
     };
 
     res.status(200).json(sinlgeUser);

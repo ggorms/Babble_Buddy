@@ -1,5 +1,5 @@
 import Placeholder from "../assets/placeholder.jpg";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import {
   singleUserThunk,
@@ -13,6 +13,8 @@ import {
   userAndFriendConversationThunk,
   newConversationThunk,
 } from "../store/conversation";
+import FollowingList from "../components/FollowingList";
+import FollowersList from "../components/FollowersList";
 
 function Profile() {
   const { id } = useParams();
@@ -88,7 +90,6 @@ function Profile() {
       navigate("/messenger");
     }
   };
-
   return (
     <div className="profile">
       <div className="profileCardWrapper">
@@ -97,30 +98,62 @@ function Profile() {
           <h1 className="profileName">
             {userProfile.fName} {userProfile.lName}
           </h1>
-          <button
-            onClick={() => handleFollowButtonClick()}
-            className="followingButton"
-          >
-            {followingButtonLogic}
-          </button>
-          <button
-            onClick={() => handleChatLinkClick()}
-            className="followingButton"
-          >
-            Chat
-          </button>
+          {/* If logged in User is viewing their own profile, do not display follow and chat buttons */}
+          {loggedInUser.userId !== userProfile.id ? (
+            <>
+              <button
+                onClick={() => handleFollowButtonClick()}
+                className="followingButton"
+              >
+                {followingButtonLogic}
+              </button>
+              <button
+                onClick={() => handleChatLinkClick()}
+                className="followingButton"
+              >
+                Chat
+              </button>
+            </>
+          ) : (
+            ""
+          )}
         </div>
       </div>
       <div className="followingList">
-        <h2>Following</h2>
-        {userProfile.following?.map((user) => (
-          <div key={user.follwoing?.id} className="followingListEntry">
-            <img src={Placeholder} className="followingListEntryPicture" />
-            <h5 className="followingListEntryName">
-              {user.following?.fName} {user.following?.lName}
-            </h5>
-          </div>
-        ))}
+        <h2 className="followingTitle">
+          Following {userProfile.following?.length}
+        </h2>
+        <div className="followingContainer">
+          {userProfile.following?.length > 0 ? (
+            userProfile.following?.map((user) => (
+              <FollowingList
+                user={user}
+                key={user.following?.id}
+                loggedInUser={loggedInUser}
+                loggedInUserFollowingList={loggedInUserFollowingList}
+              />
+            ))
+          ) : (
+            <h4>None</h4>
+          )}
+        </div>
+      </div>
+      <div className="followingList">
+        <h2 className="followingTitle">
+          Followers {userProfile.followers?.length}
+        </h2>
+        {userProfile.followers?.length > 0 ? (
+          userProfile.followers?.map((user) => (
+            <FollowersList
+              user={user}
+              key={user.user?.id}
+              loggedInUser={loggedInUser}
+              loggedInUserFollowingList={loggedInUserFollowingList}
+            />
+          ))
+        ) : (
+          <h4>None</h4>
+        )}
       </div>
     </div>
   );
