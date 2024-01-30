@@ -1,0 +1,58 @@
+.profileCardWrapper{
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.profilePicture {
+    height: 100px;
+    width: 100px;
+    border-radius: 50%;
+}
+
+.profileName {
+    padding-top: 10px;
+    margin-left: 25px;
+}
+
+.followingList {
+    margin: 20px 25px;
+}
+
+.followingListEntry {
+    display: flex;
+    align-items: center;
+    margin: 7px 0;
+    padding: 5px;
+}
+
+.followingButton {
+    margin-left: 25px;
+    margin-top: 10px;
+    width: 75px;
+    height: 30px;
+    border-radius: 8px;
+    border: none;
+    color: white;
+    font-weight: bold;
+    text-decoration: none;
+    background-color: rgb(62, 129, 246);
+}
+
+.followingButton:hover {
+    background-color: rgb(33, 112, 250);;
+}
+
+.followingListEntry:hover {
+    box-shadow: 1px 1px 2px 1px gray;
+}
+
+.followingListEntryPicture {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+}
+
+.followingListEntryName {
+    margin-left: 8px;
+}

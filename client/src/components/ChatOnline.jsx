@@ -3,7 +3,6 @@ import { userFollowingListThunk } from "../store/user";
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { userAndFriendConversationThunk } from "../store/conversation";
-import { conversationMessagesThunk } from "../store/message";
 
 function ChatOnline({ onlineUsers, currentUserId }) {
   const dispatch = useDispatch();
@@ -18,7 +17,7 @@ function ChatOnline({ onlineUsers, currentUserId }) {
 
   useEffect(() => {
     setOnlineFriends(
-      userFollowingList.filter((user) =>
+      userFollowingList?.filter((user) =>
         onlineUsers
           .map((onlineUser) => onlineUser.userId)
           .includes(user.following.id)

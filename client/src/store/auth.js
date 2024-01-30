@@ -97,6 +97,7 @@ export const logoutThunk = () => async (dispatch) => {
 const initialState = {
   user: {
     token: getToken(),
+    userInfo: JSON.parse(window.sessionStorage.getItem("userInfo")) || {},
   },
 };
 

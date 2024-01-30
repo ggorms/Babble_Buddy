@@ -8,7 +8,17 @@ import { conversationMessagesThunk, newMessageThunk } from "../store/message";
 import { io } from "socket.io-client";
 
 function Messenger() {
-  const [currentChat, setCurrentChat] = useState(null);
+  const conversation = useSelector(
+    (state) => state.conversation.userAndFriendConversation
+  );
+
+  const newConversation = useSelector(
+    (state) => state.conversation.newConversation
+  );
+
+  const [currentChat, setCurrentChat] = useState(
+    conversation || newConversation
+  );
   const [newMessage, setNewMessage] = useState("");
   const [arrivalMessage, setArrivalMessage] = useState(null);
   const [onlineUsers, setOnlineUsers] = useState([]);
@@ -34,12 +44,10 @@ function Messenger() {
     });
   }, []);
 
-  // console.log("arrivalMessage", arrivalMessage);
-
   useEffect(() => {
     if (
       arrivalMessage &&
-      currentChat?.UserConversation.some(
+      currentChat?.UserConversation?.some(
         (member) => member.userId === arrivalMessage.senderId
       )
     ) {
@@ -53,19 +61,13 @@ function Messenger() {
     });
   }, [user.userId]);
 
-  // console.log("oUser", onlineUsers);
-
   const conversations = useSelector(
     (state) => state.conversation.userConversations
   );
-  // console.log("currChat", currentChat);
-  // console.log("convos:", conversations);
 
   useEffect(() => {
     dispatch(userConversationsThunk(user.userId));
   }, [user.userId, dispatch]);
-
-  console.log("currChat", currentChat);
 
   const handleSubmitMessage = (e) => {
     e.preventDefault();
@@ -101,15 +103,17 @@ function Messenger() {
     scrollRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  const conversation = useSelector(
-    (state) => state.conversation.userAndFriendConversation
-  );
-
   useEffect(() => {
-    dispatch(conversationMessagesThunk(conversation.id)).then(() => {
+    dispatch(conversationMessagesThunk(conversation?.id)).then(() => {
       setCurrentChat(conversation);
     });
   }, [conversation, dispatch]);
+
+  useEffect(() => {
+    dispatch(conversationMessagesThunk(newConversation.id)).then(() => {
+      setCurrentChat(newConversation);
+    });
+  }, [newConversation, dispatch]);
   return (
     <div className="messenger">
       <div className="chatMenu">
@@ -160,11 +164,7 @@ function Messenger() {
       </div>
       <div className="chatOnline">
         <div className="chatOnlineWrapper">
-          <ChatOnline
-            onlineUsers={onlineUsers}
-            currentUserId={user.userId}
-            currentChat={currentChat}
-          />
+          <ChatOnline onlineUsers={onlineUsers} currentUserId={user.userId} />
         </div>
       </div>
     </div>

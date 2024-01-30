@@ -18,12 +18,40 @@ router.get("/", async (req, res, next) => {
 router.get("/:id", async (req, res, next) => {
   try {
     const { id } = req.params;
-    const singleUser = await prisma.user.findUnique({
+    const user = await prisma.user.findUnique({
       where: {
         id: +id,
       },
+      select: {
+        id: true,
+        fName: true,
+        lName: true,
+      },
     });
-    res.status(200).json(singleUser);
+
+    const userFollowings = await prisma.userRelationship.findMany({
+      where: {
+        userId: user.id,
+      },
+      select: {
+        following: {
+          select: {
+            id: true,
+            fName: true,
+            lName: true,
+          },
+        },
+      },
+    });
+
+    const sinlgeUser = {
+      id: user.id,
+      fName: user.fName,
+      lName: user.lName,
+      following: userFollowings,
+    };
+
+    res.status(200).json(sinlgeUser);
   } catch (error) {
     console.error(error.message);
     next(error);
@@ -56,13 +84,13 @@ router.get("/following/:id", async (req, res, next) => {
 });
 
 // Follow a User
-router.post("/follow", async (req, res, next) => {
-  const { userId, followingId } = req.body;
+router.post("/follow/:userId/:followingId", async (req, res, next) => {
+  const { userId, followingId } = req.params;
   try {
     const followUser = await prisma.userRelationship.create({
       data: {
-        userId,
-        followingId,
+        userId: +userId,
+        followingId: +followingId,
       },
     });
     res.status(200).json(followUser);
@@ -73,8 +101,9 @@ router.post("/follow", async (req, res, next) => {
 });
 
 // Unfollow a user
-router.delete("/unfollow", async (req, res, next) => {
-  const { userId, followingId } = req.body;
+router.delete("/unfollow/:userId/:followingId", async (req, res, next) => {
+  const { userId, followingId } = req.params;
+  // USE PARAMS INSTEAD OF REQ.BODY
   try {
     const unfollowUser = await prisma.userRelationship.delete({
       where: {

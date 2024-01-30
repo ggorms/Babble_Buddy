@@ -8,6 +8,12 @@ router.post("/new", async (req, res, next) => {
   try {
     const { senderId, receiverId } = req.body;
 
+    await prisma.$executeRaw`
+    SELECT setval((
+        SELECT PG_GET_SERIAL_SEQUENCE('"Conversation"', 'id')),
+        (SELECT (MAX("id") + 1) FROM "Conversation"),
+        false) FROM "Conversation"`;
+
     const newConversation = await prisma.conversation.create();
 
     const newUserConversation__sender = await prisma.userConversation.create({
@@ -24,7 +30,16 @@ router.post("/new", async (req, res, next) => {
       },
     });
 
-    res.status(200).json(newConversation);
+    const conversation = await prisma.conversation.findUnique({
+      where: {
+        id: newConversation.id,
+      },
+      include: {
+        UserConversation: true,
+      },
+    });
+
+    res.status(200).json(conversation);
   } catch (error) {
     console.error(error.message);
     next(error);
@@ -89,6 +104,9 @@ router.get("/find/:userId/:friendId", async (req, res, next) => {
             },
           },
         },
+      },
+      include: {
+        UserConversation: true,
       },
     });
 

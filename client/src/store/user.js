@@ -62,28 +62,25 @@ export const userFollowingListThunk = (id) => async (dispatch) => {
   }
 };
 
-export const followUserThunk = (userId, followingId) => async (dispatch) => {
+export const followUserThunk = (relationship) => async (dispatch) => {
+  const { userId, followingId } = relationship;
   try {
-    const { data: user } = await axios.post(`${BASE_URL}/api/users/follow`, {
-      userId,
-      followingId,
-    });
+    const { data: user } = await axios.post(
+      `${BASE_URL}/api/users/follow/${userId}/${followingId}`
+    );
     return dispatch(followUser(user));
   } catch (error) {
     console.error(error);
   }
 };
 
-export const unfollowUserThunk = (userId, followingId) => async (dispatch) => {
+export const unfollowUserThunk = (relationship) => async (dispatch) => {
+  const { userId, followingId } = relationship;
   try {
-    const { data: user } = await axios.delete(
-      `${BASE_URL}/api/users/unfollow`,
-      {
-        userId,
-        followingId,
-      }
+    const { data } = await axios.delete(
+      `${BASE_URL}/api/users/unfollow/${userId}/${followingId}`
     );
-    return dispatch(unfollowUser(user));
+    return dispatch(unfollowUser(data));
   } catch (error) {
     console.error(error);
   }
