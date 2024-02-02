@@ -1,13 +1,13 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import { logoutThunk } from "../store/auth";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
+import Logo from "../assets/babble-buddy-high-resolution-logo-transparent.png";
 
 function Navbar() {
   const [active, setActive] = useState("nav__menu");
   const [icon, setIcon] = useState("nav__toggler");
-  const user = useSelector((state) => state.auth.user.token);
-  const dispatch = useDispatch();
+  const user = useSelector((state) => state.auth.user.userInfo);
+
   const navToggle = () => {
     if (active === "nav__menu") {
       setActive("nav__menu nav__active");
@@ -19,28 +19,12 @@ function Navbar() {
     } else setIcon("nav__toggler");
   };
 
-  const handleLogout = (e) => {
-    e.preventDefault();
-    dispatch(logoutThunk());
-  };
-
   return (
     <nav className="nav">
-      <a href="#" className="nav__brand">
-        herdoy
-      </a>
+      <Link to={"/"}>
+        <img src={Logo} alt="Logo" className="navLogo" />
+      </Link>
       <ul className={active}>
-        <li
-          className="nav__item"
-          onClick={() => {
-            setActive("nav__menu");
-            setIcon("nav__toggler");
-          }}
-        >
-          <Link to={"/"} className="nav__link">
-            Home
-          </Link>
-        </li>
         <li
           className="nav__item"
           onClick={() => {
@@ -59,14 +43,18 @@ function Navbar() {
             setIcon("nav__toggler");
           }}
         >
-          {!user ? (
-            <Link to={"/auth"} className="nav__link">
-              Login
-            </Link>
-          ) : (
-            <button onClick={handleLogout}>Logout</button>
-          )}
+          <Link to={`/profile/${user?.userId}`} className="nav__link">
+            Profile
+          </Link>
         </li>
+
+        <li
+          className="nav__item"
+          onClick={() => {
+            setActive("nav__menu");
+            setIcon("nav__toggler");
+          }}
+        ></li>
       </ul>
       <div onClick={navToggle} className={icon}>
         <div className="line1"></div>

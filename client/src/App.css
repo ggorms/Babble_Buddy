@@ -5,6 +5,10 @@
 @import "./style/message.css";
 @import "./style/chatOnline.css";
 @import "./style/profile.css";
+@import "./style/auth.css";
+@import "./style/home.css";
+@import "./style/userSearch.css";
+@import "./style/instructions.css";
 .App {
   width: 100vw;
   height: 100vh;
@@ -18,6 +22,12 @@ body {
   margin: 0%;
   padding: 0%;
   background-color: rgb(241 245 249);
+  height: 100vh;
+  overflow-y: auto;
+}
+
+#root {
+  height: 100vh;
 }
 
 .joinChatContainer {

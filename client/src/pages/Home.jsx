@@ -1,8 +1,20 @@
-function Home() {
+import { useState } from "react";
+import UserSearch from "../components/UserSearch";
+import Inscrutions from "../components/Inscrutions";
+
+function Home({ loggedInUser, loggedInUserFollowingList }) {
+  const [activeSearch, setActiveSearch] = useState(false);
   return (
-    <div>
-      <h1></h1>
-      <h2>Welcome to the home page</h2>
+    <div onClick={() => setActiveSearch(false)}>
+      <div className="homeImageContainer">
+        <UserSearch
+          activeSearch={activeSearch}
+          setActiveSearch={setActiveSearch}
+          loggedInUser={loggedInUser}
+          loggedInUserFollowingList={loggedInUserFollowingList}
+        />
+      </div>
+      <Inscrutions />
     </div>
   );
 }

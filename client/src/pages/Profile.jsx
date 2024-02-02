@@ -1,5 +1,5 @@
 import Placeholder from "../assets/placeholder.jpg";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import {
   singleUserThunk,
@@ -15,22 +15,14 @@ import {
 } from "../store/conversation";
 import FollowingList from "../components/FollowingList";
 import FollowersList from "../components/FollowersList";
+import { logoutThunk } from "../store/auth";
 
-function Profile() {
+function Profile({ loggedInUser, loggedInUserFollowingList }) {
   const { id } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const loggedInUser = useSelector((state) => state.auth.user.userInfo);
 
   const userProfile = useSelector((state) => state.user.singleUser);
-
-  const loggedInUserFollowingList = useSelector(
-    (state) => state.user.userFollowingList
-  );
-
-  useEffect(() => {
-    dispatch(userFollowingListThunk(loggedInUser.userId));
-  }, [dispatch, loggedInUser]);
 
   useEffect(() => {
     dispatch(singleUserThunk(id));
@@ -90,6 +82,13 @@ function Profile() {
       navigate("/messenger");
     }
   };
+
+  const handleLogout = (e) => {
+    e.preventDefault();
+    dispatch(logoutThunk()).then(() => {
+      navigate("/");
+    });
+  };
   return (
     <div className="profile">
       <div className="profileCardWrapper">
@@ -115,7 +114,9 @@ function Profile() {
               </button>
             </>
           ) : (
-            ""
+            <button onClick={handleLogout} className="followingButton">
+              Logout
+            </button>
           )}
         </div>
       </div>

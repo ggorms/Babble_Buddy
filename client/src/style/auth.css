@@ -1,0 +1,71 @@
+.authPage {
+    height: 92vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+
+.authContainer {
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    height: 450px;
+    margin: 30px 30px;
+    border-radius: 8px;
+    box-shadow: 0 0 5px lightgray;
+}
+.authTitle {
+    display: flex;
+    justify-content: center;
+    margin: 25px 0;
+    font-weight: bolder;
+    padding-bottom: 15px;
+}
+
+.authForm {
+    display: flex;
+    flex-direction: column;
+}
+
+.authInput {
+    margin: 8px 50px;
+    height: 40px;
+    width: 200px;
+    padding-left: 5px;
+    border-radius: 5px;
+    border: 0.5px solid black;
+}
+
+
+.authButton {
+    margin: 10px auto;
+    width: 85px;
+    height: 40px;
+    border-radius: 8px;
+    background-color: rgb(62, 129, 246);
+    font-weight: bold;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.authButton:hover {
+    background-color: rgb(33, 112, 250);
+}
+
+.authMessage {
+    display: flex;
+    justify-content: center;
+    margin: 10px 0;
+    font-size: medium;
+}
+
+.authTypeSwitch {
+    margin-left: 5px;
+    cursor: pointer;
+    color: blue;
+    text-decoration: underline;
+}

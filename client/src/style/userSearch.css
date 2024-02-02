@@ -1,0 +1,62 @@
+.searchInput {
+    width: 220px;
+    height: 50px;
+}
+
+.searchWrapper {
+    overflow-y: auto;
+    height: 200px;
+    width: 300px;
+    background-color: white;
+    position: fixed;
+}
+
+
+.userSearchLink {
+    text-decoration: none;
+    color: black;
+}
+
+
+.userSearchEntry {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px;
+    border-radius: 8px;
+}
+
+.userSearchEntry:hover {
+    box-shadow: 0 0 1px gray;
+}
+
+.searchEntryContainer {
+    display: flex;
+    align-items: center;
+}
+
+.searchEntryImage {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+}
+
+.searchEntryName {
+    margin-left: 8px;
+}
+
+.searchEntryButton {
+    margin-right: 10px;
+    width: 75px;
+    height: 25px;
+    background-color: rgb(62, 129, 246);
+    font-weight: bold;
+    border-radius: 8px;
+    border: none;
+    color: white;
+    cursor: pointer;
+}
+
+.searchEntryButton:hover {
+    background-color: rgb(33, 112, 250);;
+}

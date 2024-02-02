@@ -11,9 +11,9 @@ const register = (user) => ({
   payload: user,
 });
 
-const login = (token) => ({
+const login = (user) => ({
   type: LOGIN,
-  payload: token,
+  payload: user,
 });
 
 const logout = (user) => ({
@@ -52,7 +52,17 @@ export const loginThunk = (credentials) => async (dispatch) => {
       );
     }
 
-    return dispatch(login(token));
+    return dispatch(
+      login({
+        token,
+        userInfo: {
+          userId: data.id,
+          fName: data.fName,
+          lName: data.lName,
+          email: data.email,
+        },
+      })
+    );
   } catch (error) {
     console.error(error);
   }
@@ -73,10 +83,29 @@ export const registerThunk = (credentials) => async (dispatch) => {
     if (!sessionStorage.getItem("token")) {
       {
         sessionStorage.setItem("token", token);
+        sessionStorage.setItem(
+          "userInfo",
+          JSON.stringify({
+            userId: data.id,
+            fName: data.fName,
+            lName: data.lName,
+            email: data.email,
+          })
+        );
       }
     }
 
-    return dispatch(register(token));
+    return dispatch(
+      register({
+        token,
+        userInfo: {
+          userId: data.id,
+          fName: data.fName,
+          lName: data.lName,
+          email: data.email,
+        },
+      })
+    );
   } catch (error) {
     console.error(error);
   }

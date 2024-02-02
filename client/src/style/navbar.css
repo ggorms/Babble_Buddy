@@ -17,7 +17,9 @@ li {
 }
 .nav__link {
   text-decoration: none;
-  color: rgb(204, 204, 204);
+  color: black;
+  font-size: large;
+  font-weight: bold;
 }
 
 .nav {
@@ -25,10 +27,12 @@ li {
   align-items: center;
   justify-content: space-around;
   height: 8vh;
-  background: rgb(0, 33, 65);
+  background-color: white;
 }
-.nav__brand {
-  text-transform: uppercase;
+.navLogo {
+  width: 200px;
+  height: 35px;
+  cursor: pointer;
 }
 
 .nav__menu {
