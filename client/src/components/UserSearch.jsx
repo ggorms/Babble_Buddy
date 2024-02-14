@@ -2,6 +2,7 @@ import { allUsersThunk } from "../store/user";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import UserSearchEntry from "./UserSearchEntry";
+import TextField from "@mui/material/TextField";
 
 function UserSearch({
   activeSearch,
@@ -17,19 +18,24 @@ function UserSearch({
     dispatch(allUsersThunk());
   }, [dispatch]);
 
-  //   console.log("allUsers", allUsers);
   const filteredUsers = allUsers.filter(
     (user) =>
       user.fName.toLowerCase().startsWith(searchValue.toLowerCase()) ||
       user.lName.toLowerCase().startsWith(searchValue.toLowerCase())
   );
-  //   console.log("filteredUsers", filteredUsers);
   return (
-    <div>
-      <input
-        className="searchInput"
+    <div className={activeSearch ? "searchContainerActive" : "searchContainer"}>
+      <TextField
+        label="Search for Friends"
         type="text"
-        placeholder="Search for Friends"
+        sx={{
+          width: 220,
+          // "& .MuiTextField-root": { marginTop: "30px", boxShadow: 10 },
+          "& .MuiInputBase-input": { height: "2rem", fontSize: 16 },
+          "& .MuiFormLabel-root": { fontSize: 16 },
+          "& .css-14lo706": { width: 110 },
+        }}
+        className="searchInput"
         value={searchValue}
         onChange={(e) => setSearchValue(e.target.value)}
         onClick={(e) => {
@@ -38,18 +44,21 @@ function UserSearch({
           setActiveSearch(true);
         }}
       />
-      <div
-        style={activeSearch ? { display: "block" } : { display: "none" }}
-        className="searchWrapper"
-      >
-        {filteredUsers.map((user) => (
-          <UserSearchEntry
-            user={user}
-            key={user.id}
-            loggedInUser={loggedInUser}
-            loggedInUserFollowingList={loggedInUserFollowingList}
-          />
-        ))}
+
+      <div className={activeSearch ? "searchWrapperParent" : ""}>
+        <div
+          style={activeSearch ? { display: "block" } : { display: "none" }}
+          className="searchWrapper"
+        >
+          {filteredUsers.map((user) => (
+            <UserSearchEntry
+              user={user}
+              key={user.id}
+              loggedInUser={loggedInUser}
+              loggedInUserFollowingList={loggedInUserFollowingList}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );

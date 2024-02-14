@@ -1,8 +1,10 @@
-function Inscrutions() {
+function Instructions() {
   return (
     <div className="instructionsWrapper">
       <div className="instructionContainer">
-        <button className="instructionBulletPoint">1</button>
+        <div className="buttonContainer">
+          <button className="instructionBulletPoint">1</button>
+        </div>
         <div className="instructionText">
           <h3 className="instructionTitle">Find</h3>
           <p className="instructionWording">
@@ -11,7 +13,9 @@ function Inscrutions() {
         </div>
       </div>
       <div className="instructionContainer">
-        <button className="instructionBulletPoint">2</button>
+        <div className="buttonContainer">
+          <button className="instructionBulletPoint">2</button>
+        </div>
         <div className="instructionText">
           <h3 className="instructionTitle">Follow</h3>
           <p className="instructionWording">
@@ -20,7 +24,9 @@ function Inscrutions() {
         </div>
       </div>
       <div className="instructionContainer">
-        <button className="instructionBulletPoint">3</button>
+        <div className="buttonContainer">
+          <button className="instructionBulletPoint">3</button>
+        </div>
         <div className="instructionText">
           <h3 className="instructionTitle">Chat</h3>
           <p className="instructionWording">
@@ -32,4 +38,4 @@ function Inscrutions() {
   );
 }
 
-export default Inscrutions;
+export default Instructions;

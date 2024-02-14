@@ -1,0 +1,23 @@
+.footerContainer {
+    width: 100%;
+    height: 75px;
+    background-color: white;
+    margin-top: auto;
+}
+
+.footerLinksWrapper {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.footerLink {
+    margin: 0 20px;
+    cursor: pointer;
+}
+
+.footerLinkImg {
+    height: 30px;
+    width: 30px;
+}

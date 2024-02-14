@@ -28,13 +28,13 @@
 }
 
 .instructionTitle {
-    font-weight: normal;
+    font-weight: bold;
     font-size: larger;
 }
 
 .instructionWording {
     margin-top: 15px;
     font-weight: lighter;
-    font-size: medium;
+    font-size: large;
     color: grey;
 }
