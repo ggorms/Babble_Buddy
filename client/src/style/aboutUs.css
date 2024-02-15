@@ -1,0 +1,46 @@
+
+.aboutText {
+    text-align: center;
+    font-weight:bold;
+    padding: 15px;
+    font-size: larger;
+    margin: 15px;
+    font-family: "Mate SC", serif;
+    color: teal;
+}
+
+.aboutImg{
+    height: 370px;
+    width: 100%;
+    object-position: center;
+    object-fit: cover;
+}
+
+@media screen and (min-width: 760px) {
+    .aboutImg {
+        object-fit: fill;
+    }
+}
+
+@media screen and (min-width: 1200px) {
+    .aboutImg {
+        width: 40%;
+    }
+    #aboutSegment1 {
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: center;
+    }
+    #aboutSegment2{
+        display: flex;
+        justify-content: center;
+    }
+    .aboutText {
+        width: 40%;
+        height: 370px;
+        font-size: x-large;
+        margin: auto 0;
+        padding: 4% 40px;
+        
+    }
+}

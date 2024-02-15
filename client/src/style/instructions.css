@@ -1,8 +1,5 @@
 .instructionsWrapper {
     margin: 15px 15px;
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 0 1px lightgray;
 }
 
 .instructionContainer {
@@ -12,7 +9,8 @@
 }
 
 .instructionBulletPoint {
-    background-color: rgb(63, 63, 63);
+    /* background-color: rgb(63, 63, 63); */
+    background-color: teal;
     color: white;
     font-weight: bold;
     cursor: none;
@@ -30,6 +28,7 @@
 .instructionTitle {
     font-weight: bold;
     font-size: larger;
+    /* color: teal; */
 }
 
 .instructionWording {
@@ -37,4 +36,18 @@
     font-weight: lighter;
     font-size: large;
     color: grey;
+}
+
+@media screen and (min-width: 1200px) {
+    .instructionsParent {
+        display: flex;
+        justify-content: center;
+    }
+    .instructionContainer {
+        padding: 15px;
+    }
+    .instructionsWrapper {
+        margin: 15px 0;
+        width: 40%;
+    }
 }

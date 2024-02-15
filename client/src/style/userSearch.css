@@ -1,25 +1,43 @@
 .searchContainer {
     height: 200px;
-    background-color: white;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     margin: 15px;
-    border-radius: 8px;
-    box-shadow: 0 0 1px lightgray;
+    position: relative;
 }
 
 .searchContainerActive {
     height: 400px;
-    background-color: white;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     margin: 15px;
-    border-radius: 8px;
-    box-shadow: 0 0 1px lightgray;
+    position: relative;
+}
+
+.searchContainerTitle {
+    font-family: "Protest Riot", sans-serif;
+    font-size: large;
+    padding:15px;
+    text-align: center;
+    top: 0;
+    position: absolute;
+    color: teal;
+}
+
+.clearInputButton {
+    border: none;
+    background-color: unset;
+    height: 30px;
+    width: 30px;
+    font-weight: bolder;
+    font-size: xx-large;
+    padding-bottom: 40px;
+    color: darkgray;
+    cursor: pointer;
 }
 
 .searchWrapperParent {
@@ -33,7 +51,6 @@
     overflow-y: auto;
     height: 250px;
     width: 90%;
-    background-color: white;
     position: absolute;
 }
 
@@ -85,4 +102,29 @@
 
 .searchEntryButton:hover {
     background-color: rgb(33, 112, 250);
+}
+
+@media screen and (min-width:1200px){
+    .searchContainer {
+        width: 40%;
+        height: 350px;
+        margin-top: 65px;
+        margin-left: 0;
+        background-color: unset;
+    }
+    .searchContainerActive {
+        height: 550px;
+        width: 40%;
+        margin-top: 65px;
+        margin-left: 0;
+        background-color: unset;
+    }
+    .searchContainerTitle {
+        padding-top: 60px;
+        font-size: larger;
+    }
+    .searchWrapper{
+        height: 300px;
+        background-color: unset;
+    }
 }

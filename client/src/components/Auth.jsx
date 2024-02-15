@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
 import { loginThunk, registerThunk } from "../store/auth";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import TextField from "@mui/material/TextField";
 
 function Auth() {
   // const navigate = useNavigate();
@@ -46,18 +46,41 @@ function Auth() {
         <form onSubmit={attemptAuth} className="authForm">
           {!isLogin ? (
             <div className="authForm">
-              <input
+              <TextField
+                label="First Name"
                 className="authInput"
-                placeholder="First Name"
                 type="text"
+                sx={{
+                  width: 220,
+                  // marginTop: 5,
+                  marginLeft: 5,
+                  marginRight: 5,
+                  "& .MuiInputBase-input": { height: "2rem", fontSize: 16 },
+                  "& .MuiFormLabel-root": {
+                    fontSize: 16,
+                  },
+                  "& .css-14lo706": { width: 68 },
+                }}
                 onChange={(e) =>
                   setCredentials({ ...credentials, fName: e.target.value })
                 }
               />
-              <input
+
+              <TextField
+                label="Last Name"
                 className="authInput"
-                placeholder="Last Name"
                 type="text"
+                sx={{
+                  width: 220,
+                  marginTop: 5,
+                  marginLeft: 5,
+                  marginRight: 5,
+                  "& .MuiInputBase-input": { height: "2rem", fontSize: 16 },
+                  "& .MuiFormLabel-root": {
+                    fontSize: 16,
+                  },
+                  "& .css-14lo706": { width: 68 },
+                }}
                 onChange={(e) =>
                   setCredentials({ ...credentials, lName: e.target.value })
                 }
@@ -66,18 +89,39 @@ function Auth() {
           ) : (
             ""
           )}
-          <input
+          <TextField
+            label="Email"
             className="authInput"
             type="text"
-            placeholder="Email"
+            sx={{
+              width: 220,
+              margin: 5,
+              "& .MuiInputBase-input": { height: "2rem", fontSize: 16 },
+              "& .MuiFormLabel-root": {
+                fontSize: 16,
+              },
+              "& .css-14lo706": { width: 40 },
+            }}
             onChange={(e) =>
               setCredentials({ ...credentials, email: e.target.value })
             }
           />
-          <input
+          <TextField
+            label="Password"
             className="authInput"
-            type="text"
-            placeholder="Password"
+            type="password"
+            sx={{
+              width: 220,
+              marginTop: 0,
+              marginLeft: 5,
+              marginRight: 5,
+              marginBottom: 5,
+              "& .MuiInputBase-input": { height: "2rem", fontSize: 16 },
+              "& .MuiFormLabel-root": {
+                fontSize: 16,
+              },
+              "& .css-14lo706": { width: 63 },
+            }}
             onChange={(e) =>
               setCredentials({ ...credentials, password: e.target.value })
             }

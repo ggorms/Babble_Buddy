@@ -16,3 +16,30 @@
 .messagingImg {
     width: 100%;
 }
+
+.aboutContainer {
+    height: 300px;
+    margin: 15px;
+    background-color: white;
+    box-shadow: 0 0 1px lightgray;
+    border-radius: 8px;
+}
+
+@media screen and (min-width:1200px){
+    .homeSegmentWrapper {
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: center;
+        margin-top: 20px;
+        height: 600px;
+    }
+    .messagingImg {
+        width: 41%;
+    }
+}
+
+@media screen and (min-width:1500px){
+    .homeImageContainer{
+        height: 700px;
+    }
+}

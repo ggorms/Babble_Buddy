@@ -62,8 +62,8 @@ li {
     top: 7vh;
     right: 0;
     height: 93vh;
-    width: 50vw;
-    background: rgb(0, 33, 65);
+    width: 100vw;
+    background: white;
     z-index: 99;
     flex-direction: column;
     transform: translateX(100%);

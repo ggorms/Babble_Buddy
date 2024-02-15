@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import UserSearchEntry from "./UserSearchEntry";
 import TextField from "@mui/material/TextField";
+import { InputAdornment } from "@mui/material";
 
 function UserSearch({
   activeSearch,
@@ -25,15 +26,37 @@ function UserSearch({
   );
   return (
     <div className={activeSearch ? "searchContainerActive" : "searchContainer"}>
+      <h3 className="searchContainerTitle">
+        Find Your Friends or Make New Connections !
+      </h3>
       <TextField
         label="Search for Friends"
         type="text"
+        InputProps={
+          activeSearch &&
+          searchValue && {
+            endAdornment: (
+              <InputAdornment position="end">
+                <button
+                  onClick={() => setSearchValue("")}
+                  className="clearInputButton"
+                >
+                  x
+                </button>
+              </InputAdornment>
+            ),
+          }
+        }
         sx={{
           width: 220,
           // "& .MuiTextField-root": { marginTop: "30px", boxShadow: 10 },
           "& .MuiInputBase-input": { height: "2rem", fontSize: 16 },
-          "& .MuiFormLabel-root": { fontSize: 16 },
-          "& .css-14lo706": { width: 110 },
+          "& .MuiFormLabel-root": {
+            fontSize: 16,
+            fontStyle: "italic",
+            fontWeight: "bold",
+          },
+          "& .css-14lo706": { width: 117 },
         }}
         className="searchInput"
         value={searchValue}

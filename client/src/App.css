@@ -10,6 +10,7 @@
 @import "./style/userSearch.css";
 @import "./style/instructions.css";
 @import "./style/footer.css";
+@import "./style/aboutUs.css";
 
 body {
   margin: 0;
