@@ -32,21 +32,20 @@ function UserSearch({
       <TextField
         label="Search for Friends"
         type="text"
-        InputProps={
-          activeSearch &&
-          searchValue && {
-            endAdornment: (
-              <InputAdornment position="end">
+        InputProps={{
+          endAdornment: (
+            <InputAdornment position="end">
+              {activeSearch && searchValue && (
                 <button
                   onClick={() => setSearchValue("")}
                   className="clearInputButton"
                 >
                   x
                 </button>
-              </InputAdornment>
-            ),
-          }
-        }
+              )}
+            </InputAdornment>
+          ),
+        }}
         sx={{
           width: 220,
           // "& .MuiTextField-root": { marginTop: "30px", boxShadow: 10 },

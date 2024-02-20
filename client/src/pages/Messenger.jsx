@@ -6,6 +6,8 @@ import { userConversationsThunk } from "../store/conversation";
 import { useDispatch, useSelector } from "react-redux";
 import { conversationMessagesThunk, newMessageThunk } from "../store/message";
 import { io } from "socket.io-client";
+import unhappy from "../assets/unhappy.png";
+import SendIcon from "@mui/icons-material/Send";
 
 function Messenger() {
   const conversation = useSelector(
@@ -22,6 +24,7 @@ function Messenger() {
   const [newMessage, setNewMessage] = useState("");
   const [arrivalMessage, setArrivalMessage] = useState(null);
   const [onlineUsers, setOnlineUsers] = useState([]);
+  const [convoSearchValue, setConvoSearchValue] = useState("");
   const dispatch = useDispatch();
   const scrollRef = useRef();
   const socket = useRef();
@@ -47,7 +50,7 @@ function Messenger() {
   useEffect(() => {
     if (
       arrivalMessage &&
-      currentChat?.UserConversation?.some(
+      currentChat?.members?.some(
         (member) => member.userId === arrivalMessage.senderId
       )
     ) {
@@ -72,7 +75,7 @@ function Messenger() {
   const handleSubmitMessage = (e) => {
     e.preventDefault();
 
-    const receiverId = currentChat.UserConversation.find(
+    const receiverId = currentChat.members.find(
       (member) => member.userId !== user.userId
     );
 
@@ -114,57 +117,97 @@ function Messenger() {
       setCurrentChat(newConversation);
     });
   }, [newConversation, dispatch]);
+  // console.log(conversations);
+
+  const filteredConvos = conversations.filter(
+    (convo) =>
+      convo.members[1].fName
+        .toLowerCase()
+        .startsWith(convoSearchValue.toLocaleLowerCase()) ||
+      convo.members[1].lName
+        .toLowerCase()
+        .startsWith(convoSearchValue.toLocaleLowerCase())
+  );
+  // console.log("filtered", filteredConvos);
   return (
     <div className="messenger">
-      <div className="chatMenu">
-        <div className="chatMenuWrapper">
-          <input placeholder="Search for friends" className="chatMenuInput" />
-          {conversations.map((convo) => (
-            <div key={convo.id} onClick={() => setCurrentChat(convo)}>
-              <Conversation conversation={convo} currentUser={user} />
-            </div>
-          ))}
-        </div>
-      </div>
-      <div className="chatBox">
-        <div className="chatBoxWrapper">
-          {currentChat ? (
+      <div className="convoAndOnlineCluster">
+        <div className="chatMenu">
+          <h2 id="title">Conversations ({conversations.length})</h2>
+          {conversations.length > 0 ? (
             <>
-              <div className="chatBoxTop">
-                {messages.map((message) => (
-                  <div key={message.id} ref={scrollRef}>
-                    <Message
-                      message={message}
-                      own={message.senderId === user.userId}
+              <input
+                placeholder="Search..."
+                className="chatMenuInput"
+                onChange={(e) => setConvoSearchValue(e.target.value)}
+              />
+              <div className="chatMenuWrapper">
+                {filteredConvos.map((convo) => (
+                  <div
+                    key={convo.id}
+                    onClick={() => setCurrentChat(convo)}
+                    className="chatMenuEntryWrapper"
+                  >
+                    <Conversation
+                      conversation={convo}
+                      currentUser={user}
+                      onlineUsers={onlineUsers}
                     />
                   </div>
                 ))}
               </div>
-              <div className="chatBoxBottom">
-                <textarea
-                  className="chatMessageInput"
-                  placeholder="write something..."
-                  onChange={(e) => setNewMessage(e.target.value)}
-                  value={newMessage}
-                ></textarea>
-                <button
-                  className="chatSubmitButton"
-                  onClick={handleSubmitMessage}
-                >
-                  Send
-                </button>
-              </div>
             </>
           ) : (
-            <span className="noConversationText">
-              Open a conversation to start a chat
-            </span>
+            <>
+              <div className="emptyContainer">
+                <h2 className="emptyText">You Have No Convos</h2>{" "}
+                <img className="emptyImage" src={unhappy} />
+              </div>
+            </>
           )}
         </div>
+        <div className="chatOnlineParent">
+          <h2 id="title">Online Friends</h2>
+          <div className="chatOnlineWrapper">
+            <ChatOnline onlineUsers={onlineUsers} currentUserId={user.userId} />
+          </div>
+        </div>
       </div>
-      <div className="chatOnline">
-        <div className="chatOnlineWrapper">
-          <ChatOnline onlineUsers={onlineUsers} currentUserId={user.userId} />
+      <div
+        className="chatBox"
+        style={
+          currentChat === null || Object.keys(currentChat).length === 0
+            ? { display: "none" }
+            : { display: "block" }
+        }
+      >
+        <div className="chatBoxWrapper">
+          <div className="chatBoxTop">
+            {messages.map((message) => (
+              <div key={message.id} ref={scrollRef}>
+                <Message
+                  message={message}
+                  own={message.senderId === user.userId}
+                />
+              </div>
+            ))}
+          </div>
+          <div className="chatBoxBottom">
+            <textarea
+              className="chatMessageInput"
+              placeholder="Message..."
+              onChange={(e) => setNewMessage(e.target.value)}
+              value={newMessage}
+            ></textarea>
+            {newMessage && (
+              <button
+                className="chatSubmitButton"
+                onClick={handleSubmitMessage}
+              >
+                <SendIcon />
+              </button>
+            )}
+          </div>
         </div>
       </div>
     </div>

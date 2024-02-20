@@ -3,17 +3,23 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { singleUserThunk } from "../store/user";
 
-function Conversation({ conversation, currentUser }) {
-  const friendId = conversation.UserConversation.find(
+function Conversation({ conversation, currentUser, onlineUsers }) {
+  const friendId = conversation.members.find(
     (member) => member.userId !== currentUser.userId
   );
-  // console.log("friendId", friendId);
-
+  const onlineUserIds = onlineUsers.map((user) => user.userId);
+  // console.log("onlineIds", onlineUserIds);
   return (
     <div className="conversation">
-      <img className="conversationImg" src={placeholder} alt="" />
+      {/* <img className="conversationImg" src={placeholder} alt="" /> */}
+      <div className="chatOnlineImgContainer">
+        <img className="chatOnlineImg" src={placeholder} alt="" />
+        {onlineUserIds.includes(friendId.userId) && (
+          <div className="chatOnlineBadge"></div>
+        )}
+      </div>
       <span className="conversationName">
-        {friendId.user.fName} {friendId.user.lName}
+        {friendId.fName} {friendId.lName}
       </span>
     </div>
   );

@@ -62,11 +62,13 @@ function Profile({ loggedInUser, loggedInUserFollowingList }) {
   );
 
   useEffect(() => {
-    const members = {
-      userId: loggedInUser.userId,
-      friendId: userProfile.id,
-    };
-    dispatch(userAndFriendConversationThunk(members));
+    if (loggedInUser.userId !== userProfile.id) {
+      const members = {
+        userId: loggedInUser.userId,
+        friendId: userProfile.id,
+      };
+      dispatch(userAndFriendConversationThunk(members));
+    }
   }, [dispatch, loggedInUser.userId, userProfile.id]);
 
   const handleChatLinkClick = () => {

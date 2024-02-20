@@ -71,7 +71,16 @@ router.get("/:id", async (req, res, next) => {
       },
     });
 
-    res.status(200).json(convoMembers);
+    const convos = convoMembers.map((convo) => ({
+      id: convo.id,
+      members: convo.UserConversation.map((userConvo) => ({
+        userId: userConvo.user.id,
+        fName: userConvo.user.fName,
+        lName: userConvo.user.lName,
+      })),
+    }));
+
+    res.status(200).json(convos);
   } catch (error) {
     console.error(error.message);
     next(error);

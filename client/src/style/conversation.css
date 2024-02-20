@@ -1,9 +1,12 @@
 .conversation {
     display: flex;
+    flex-direction: column;
     align-items: center;
     padding: 10px;
     cursor: pointer;
-    margin-top: 20px;
+    /* margin-top: 20px; */
+    width: 100px;
+    height: 100px;
 }
 
 .conversation:hover {
@@ -14,10 +17,26 @@
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    object-fit: cover;
-    margin-right: 20px;
+    /* object-fit: cover; */
+    /* margin-right: 20px; */
 }
 
 .conversationName {
     font-weight: 500;
+    text-align: center;
+    padding-top: 5px;
+}
+
+@media screen and (min-width:1200px) {
+    .conversation {
+        flex-direction: row;
+        width: 200px;
+        padding: 5px;
+        height: 50px;
+        align-items: center;
+    }
+    .conversationName {
+        margin-left: 10px;
+        padding-top: 0;
+    }
 }

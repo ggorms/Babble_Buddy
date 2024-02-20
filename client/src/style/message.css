@@ -6,6 +6,7 @@
 
 .messageTop {
     display: flex;
+    word-wrap: break-word;
 }
 
 .messageImg {
@@ -19,9 +20,10 @@
 .messageText {
     padding: 10px;
     border-radius: 20px;
-    background-color: aqua;
+    background-color: rgb(112, 110, 110);
     color: white;
-    max-width: 300px;   
+    max-width: 225px; 
+    word-wrap: break-word;
 }
 
 .messageBottom {
@@ -34,5 +36,28 @@
 }
 
 .message.own .messageText {
-    background-color: lightgray;
+    background-color: rgb(64, 169, 255);
+}
+
+@media screen and (min-width:750px) {
+    .messageText {
+        font-size: 22px;
+        max-width: 350px;
+    }
+}
+
+@media screen and (min-width:1000px) {
+    .messageText {
+        font-size: 24px;
+        max-width: 500px;
+    }
+    .messageBottom {
+        font-size: 16px;
+    }
+}
+
+@media screen and (min-width:1400px) {
+    .messageText {
+        max-width: 600px;
+    }
 }

@@ -3,6 +3,7 @@ import { userFollowingListThunk } from "../store/user";
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { userAndFriendConversationThunk } from "../store/conversation";
+import unhappy from "../assets/unhappy.png";
 
 function ChatOnline({ onlineUsers, currentUserId }) {
   const dispatch = useDispatch();
@@ -36,21 +37,28 @@ function ChatOnline({ onlineUsers, currentUserId }) {
 
   return (
     <div className="chatOnline">
-      {onlineFriends.map((friend) => (
-        <div
-          className="chatOnlineFriend"
-          key={friend.following.id}
-          onClick={() => handleClick(friend)}
-        >
-          <div className="chatOnlineImgContainer">
-            <img className="chatOnlineImg" src={placeholder} alt="" />
-            <div className="chatOnlineBadge"></div>
+      {onlineFriends.length > 0 ? (
+        onlineFriends.map((friend) => (
+          <div
+            className="chatOnlineFriend"
+            key={friend.following.id}
+            onClick={() => handleClick(friend)}
+          >
+            <div className="chatOnlineImgContainer">
+              <img className="chatOnlineImg" src={placeholder} alt="" />
+              <div className="chatOnlineBadge"></div>
+            </div>
+            <span className="chatOnlineName">
+              {friend.following.fName} {friend.following.lName}
+            </span>
           </div>
-          <span className="chatOnlineName">
-            {friend.following.fName} {friend.following.lName}
-          </span>
+        ))
+      ) : (
+        <div className="emptyContainer">
+          <h3 className="emptyText">Looks like there&#39;s no one online</h3>
+          <img src={unhappy} className="emptyImage" />
         </div>
-      ))}
+      )}
     </div>
   );
 }
