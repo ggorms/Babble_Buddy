@@ -55,7 +55,7 @@ function ChatOnline({ onlineUsers, currentUserId }) {
         ))
       ) : (
         <div className="emptyContainer">
-          <h3 className="emptyText">Looks like there&#39;s no one online</h3>
+          <h3 className="emptyText">None</h3>
           <img src={unhappy} className="emptyImage" />
         </div>
       )}

@@ -5,11 +5,14 @@ import Auth from "./components/Auth";
 import Messenger from "./pages/Messenger";
 import Profile from "./pages/Profile";
 import { useSelector, useDispatch } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { userFollowingListThunk } from "./store/user";
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 
 function App() {
   const dispatch = useDispatch();
+  const [activeSearch, setActiveSearch] = useState(false);
   const loggedInUser = useSelector((state) => state.auth.user.userInfo);
   const loggedInUserFollowingList = useSelector(
     (state) => state.user.userFollowingList
@@ -28,28 +31,37 @@ function App() {
     );
   } else if (token) {
     return (
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <Home
-              loggedInUser={loggedInUser}
-              loggedInUserFollowingList={loggedInUserFollowingList}
-            />
-          }
+      <div id="app" onClick={() => setActiveSearch(false)}>
+        <Navbar
+          loggedInUser={loggedInUser}
+          loggedInUserFollowingList={loggedInUserFollowingList}
+          activeSearch={activeSearch}
+          setActiveSearch={setActiveSearch}
         />
-        <Route
-          path="/profile/:id"
-          element={
-            <Profile
-              loggedInUser={loggedInUser}
-              loggedInUserFollowingList={loggedInUserFollowingList}
-            />
-          }
-        />
-        {/* <Route path="/auth" element={<Auth />} /> */}
-        <Route path="/messenger" element={<Messenger />} />
-      </Routes>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <Home
+                loggedInUser={loggedInUser}
+                loggedInUserFollowingList={loggedInUserFollowingList}
+              />
+            }
+          />
+          <Route
+            path="/profile/:id"
+            element={
+              <Profile
+                loggedInUser={loggedInUser}
+                loggedInUserFollowingList={loggedInUserFollowingList}
+              />
+            }
+          />
+          {/* <Route path="/auth" element={<Auth />} /> */}
+          <Route path="/messenger" element={<Messenger />} />
+        </Routes>
+        <Footer />
+      </div>
     );
   }
 }

@@ -57,6 +57,7 @@ function Messenger() {
       dispatch(conversationMessagesThunk(currentChat?.id));
     }
   }, [arrivalMessage, currentChat]);
+
   useEffect(() => {
     socket.current.emit("addUser", user.userId);
     socket.current.on("getUsers", (users) => {
@@ -100,7 +101,7 @@ function Messenger() {
 
   useEffect(() => {
     dispatch(conversationMessagesThunk(currentChat?.id));
-  }, [currentChat]);
+  }, [currentChat?.id, dispatch]);
 
   useEffect(() => {
     scrollRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -116,8 +117,10 @@ function Messenger() {
     dispatch(conversationMessagesThunk(newConversation.id)).then(() => {
       setCurrentChat(newConversation);
     });
-  }, [newConversation, dispatch]);
+  }, [newConversation.id, dispatch]);
   // console.log(conversations);
+
+  console.log("currChat", currentChat);
 
   const filteredConvos = conversations.filter(
     (convo) =>

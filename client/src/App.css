@@ -21,7 +21,7 @@ body {
   
 }
 
-#root {
+#app {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -29,7 +29,12 @@ body {
 }
 
 
-
+*,
+*::after,
+*::before {
+  margin: 0;
+  box-sizing: border-box;
+}
 
 
 

@@ -158,6 +158,7 @@ function Profile({ loggedInUser, loggedInUserFollowingList }) {
           <h4>None</h4>
         )}
       </div>
+      <input />
     </div>
   );
 }

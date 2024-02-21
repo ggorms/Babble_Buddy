@@ -1,17 +1,5 @@
 
 
-*,
-*::after,
-*::before {
-  margin: 0;
-  box-sizing: border-box;
-}
-html {
-  font-size: 62.5%;
-}
-body {
-  font-size: 1.6rem;
-}
 li {
   list-style: none;
 }
@@ -26,12 +14,13 @@ li {
   display: flex;
   align-items: center;
   justify-content: space-around;
+  /* padding: 0 10px; */
   height: 8vh;
   background-color: white;
 }
 .navLogo {
-  width: 200px;
-  height: 35px;
+  width: 120px;
+  height: 25px;
   cursor: pointer;
 }
 
@@ -43,11 +32,12 @@ li {
 }
 .nav__toggler {
   display: none;
+  margin-right: 5px;
 }
 .nav__toggler div {
-  width: 2.5rem;
-  height: 0.2rem;
-  margin: 0.4rem;
+  width: 1.5rem;
+  height: 0.1rem;
+  margin: 0.3rem;
   background: rgb(204, 204, 204);
   transition: 0.3s ease-in;
 }
@@ -59,9 +49,10 @@ li {
   }
   .nav__menu {
     position: fixed;
-    top: 7vh;
+    top: 5.7vh;
     right: 0;
-    height: 93vh;
+
+    height: 94vh;
     width: 100vw;
     background: white;
     z-index: 99;

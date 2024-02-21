@@ -11,9 +11,9 @@ ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <Provider store={store}>
       <BrowserRouter>
-        <Navbar />
+        {/* <Navbar /> */}
         <App />
-        <Footer />
+        {/* <Footer /> */}
       </BrowserRouter>
     </Provider>
   </React.StrictMode>

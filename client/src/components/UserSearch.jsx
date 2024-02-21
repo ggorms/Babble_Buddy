@@ -25,49 +25,33 @@ function UserSearch({
       user.lName.toLowerCase().startsWith(searchValue.toLowerCase())
   );
   return (
-    <div className={activeSearch ? "searchContainerActive" : "searchContainer"}>
-      <h3 className="searchContainerTitle">
-        Find Your Friends or Make New Connections !
-      </h3>
-      <TextField
-        label="Search for Friends"
-        type="text"
-        InputProps={{
-          endAdornment: (
-            <InputAdornment position="end">
-              {activeSearch && searchValue && (
-                <button
-                  onClick={() => setSearchValue("")}
-                  className="clearInputButton"
-                >
-                  x
-                </button>
-              )}
-            </InputAdornment>
-          ),
-        }}
-        sx={{
-          width: 220,
-          // "& .MuiTextField-root": { marginTop: "30px", boxShadow: 10 },
-          "& .MuiInputBase-input": { height: "2rem", fontSize: 16 },
-          "& .MuiFormLabel-root": {
-            fontSize: 16,
-            fontStyle: "italic",
-            fontWeight: "bold",
-          },
-          "& .css-14lo706": { width: 117 },
-        }}
-        className="searchInput"
-        value={searchValue}
-        onChange={(e) => setSearchValue(e.target.value)}
-        onClick={(e) => {
-          e.stopPropagation();
-          e.nativeEvent.stopImmediatePropagation();
-          setActiveSearch(true);
-        }}
-      />
+    <div className={"searchContainer"}>
+      <div className="searchInputWrapper">
+        <input
+          placeholder="Search for Friends"
+          className="searchInput"
+          value={searchValue}
+          onChange={(e) => setSearchValue(e.target.value)}
+          onClick={(e) => {
+            e.stopPropagation();
+            e.nativeEvent.stopImmediatePropagation();
+            setActiveSearch(true);
+          }}
+        />
+        {activeSearch && searchValue && (
+          <button
+            onClick={() => setSearchValue("")}
+            className="clearInputButton"
+          >
+            x
+          </button>
+        )}
+      </div>
 
-      <div className={activeSearch ? "searchWrapperParent" : ""}>
+      <div
+        className={"searchWrapperParent"}
+        style={activeSearch ? { display: "flex" } : { display: "none" }}
+      >
         <div
           style={activeSearch ? { display: "block" } : { display: "none" }}
           className="searchWrapper"

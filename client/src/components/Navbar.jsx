@@ -2,8 +2,14 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import Logo from "../assets/babble-buddy-high-resolution-logo-transparent.png";
+import UserSearch from "./UserSearch";
 
-function Navbar() {
+function Navbar({
+  loggedInUser,
+  loggedInUserFollowingList,
+  activeSearch,
+  setActiveSearch,
+}) {
   const [active, setActive] = useState("nav__menu");
   const [icon, setIcon] = useState("nav__toggler");
   const user = useSelector((state) => state.auth.user.userInfo);
@@ -24,6 +30,12 @@ function Navbar() {
       <Link to={"/"}>
         <img src={Logo} alt="Logo" className="navLogo" />
       </Link>
+      <UserSearch
+        loggedInUser={loggedInUser}
+        loggedInUserFollowingList={loggedInUserFollowingList}
+        activeSearch={activeSearch}
+        setActiveSearch={setActiveSearch}
+      />
       <ul className={active}>
         <li
           className="nav__item"

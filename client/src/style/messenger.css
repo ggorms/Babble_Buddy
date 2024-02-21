@@ -182,9 +182,8 @@
     }
     .messenger {
         display: flex;
-    }
-    .messenger {
         flex-direction: row;
+        margin: 0 50px;
     }
     .convoAndOnlineCluster {
         width: 30%;
