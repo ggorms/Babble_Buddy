@@ -10,10 +10,11 @@
     border: thin solid lightgray;
     height: 30px;
     width: 170px;
-    margin-top: 270px;
     margin: 0 auto;
     border-radius: 8px;
     display: flex;
+    z-index: 100;
+    background-color: white;
 }
 
 .searchInput {
@@ -21,7 +22,8 @@
     outline: none;
     height: 100%;
     width: 85%;
-    border-radius: 8px;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
     padding: 5px;
 }
 
@@ -34,13 +36,15 @@
     font-size: larger;
     color: darkgrey;
     cursor: pointer;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
 }
 
 .searchWrapperParent {
-    height: calc(100vh - 6vh - 8vh);
+    height: calc(100vh - 6vh);
     width: 100%;
     z-index: 99;
-    top: 8vh;
+    margin-top: -21px;
     position: absolute;
     left: 0;
     display: flex;
@@ -53,6 +57,7 @@
     overflow-y: scroll;
     height: 250px;
     width: 300px;
+    margin-top: 50.5px;
     background-color: white;
     border-radius: 8px;
 }
@@ -69,12 +74,11 @@
     justify-content: space-between;
     align-items: center;
     padding: 5px;
-    border-radius: 8px;
-
 }
 
 .userSearchEntry:hover {
-    box-shadow: 0 0 1px gray;
+    box-shadow: 0 0 1px black;
+    background-color: lightgray ;
 }
 
 .searchEntryContainer {
@@ -108,11 +112,26 @@
     background-color: rgb(33, 112, 250);
 }
 
+@media screen and (min-width:750px) {
+    .searchInputWrapper {
+        height: 40px;
+        width: 190px;
+    }
+    .searchContainer {
+        margin-top: 260px;
+    }
+    .searchWrapper {
+        margin-top: 60px;
+        width: 300px;
+    }
+}
+
+
 @media screen and (min-width:1200px){
     .searchContainer {
         width: 40%;
         height: 350px;
-        margin-top: 320px;
+        margin-top: 310px;
         margin-left: 0;
         background-color: unset;
     }
@@ -122,5 +141,6 @@
     }
     .searchWrapper{
         height: 300px;
+        width: 350px;
     }
 }

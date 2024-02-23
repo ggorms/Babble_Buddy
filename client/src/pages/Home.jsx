@@ -9,16 +9,9 @@ function Home({ loggedInUser, loggedInUserFollowingList }) {
   return (
     <div onClick={() => setActiveSearch(false)}>
       <div className="homeImageContainer"></div>
-      <div className="homeSegmentWrapper">
-        <UserSearch
-          activeSearch={activeSearch}
-          setActiveSearch={setActiveSearch}
-          loggedInUser={loggedInUser}
-          loggedInUserFollowingList={loggedInUserFollowingList}
-        />
-
+      {/* <div className="homeSegmentWrapper">
         <img src={messagingImg} className="messagingImg" />
-      </div>
+      </div> */}
       <Instructions />
       <AboutUs />
     </div>

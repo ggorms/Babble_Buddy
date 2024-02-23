@@ -102,7 +102,7 @@
 
 .chatOnlineWrapper {
     display: flex;
-    align-items: center;
+    /* align-items: center; */
     overflow-x: auto;
     height: 125px;
     margin: 0 10px;

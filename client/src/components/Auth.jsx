@@ -55,7 +55,7 @@ function Auth() {
                   // marginTop: 5,
                   marginLeft: 5,
                   marginRight: 5,
-                  "& .MuiInputBase-input": { height: "2rem", fontSize: 16 },
+                  "& .MuiInputBase-input": { height: "1.5rem", fontSize: 16 },
                   "& .MuiFormLabel-root": {
                     fontSize: 16,
                   },
@@ -75,7 +75,7 @@ function Auth() {
                   marginTop: 5,
                   marginLeft: 5,
                   marginRight: 5,
-                  "& .MuiInputBase-input": { height: "2rem", fontSize: 16 },
+                  "& .MuiInputBase-input": { height: "1.5rem", fontSize: 16 },
                   "& .MuiFormLabel-root": {
                     fontSize: 16,
                   },
@@ -96,7 +96,7 @@ function Auth() {
             sx={{
               width: 220,
               margin: 5,
-              "& .MuiInputBase-input": { height: "2rem", fontSize: 16 },
+              "& .MuiInputBase-input": { height: "1.5rem", fontSize: 16 },
               "& .MuiFormLabel-root": {
                 fontSize: 16,
               },
@@ -116,7 +116,7 @@ function Auth() {
               marginLeft: 5,
               marginRight: 5,
               marginBottom: 5,
-              "& .MuiInputBase-input": { height: "2rem", fontSize: 16 },
+              "& .MuiInputBase-input": { height: "1.5rem", fontSize: 16 },
               "& .MuiFormLabel-root": {
                 fontSize: 16,
               },

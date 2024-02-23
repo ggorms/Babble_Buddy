@@ -16,6 +16,7 @@ import {
 import FollowingList from "../components/FollowingList";
 import FollowersList from "../components/FollowersList";
 import { logoutThunk } from "../store/auth";
+import unhappy from "../assets/unhappy.png";
 
 function Profile({ loggedInUser, loggedInUserFollowingList }) {
   const { id } = useParams();
@@ -95,13 +96,13 @@ function Profile({ loggedInUser, loggedInUserFollowingList }) {
     <div className="profile">
       <div className="profileCardWrapper">
         <img src={Placeholder} className="profilePicture" />
-        <div>
+        <div className="profileNameAndButtons">
           <h1 className="profileName">
             {userProfile.fName} {userProfile.lName}
           </h1>
           {/* If logged in User is viewing their own profile, do not display follow and chat buttons */}
           {loggedInUser.userId !== userProfile.id ? (
-            <>
+            <div className="buttonWrapper">
               <button
                 onClick={() => handleFollowButtonClick()}
                 className="followingButton"
@@ -114,51 +115,64 @@ function Profile({ loggedInUser, loggedInUserFollowingList }) {
               >
                 Chat
               </button>
-            </>
+            </div>
           ) : (
-            <button onClick={handleLogout} className="followingButton">
-              Logout
-            </button>
+            <div className="buttonWrapper">
+              <button onClick={handleLogout} className="followingButton">
+                Logout
+              </button>
+            </div>
           )}
         </div>
       </div>
-      <div className="followingList">
-        <h2 className="followingTitle">
-          Following {userProfile.following?.length}
-        </h2>
-        <div className="followingContainer">
-          {userProfile.following?.length > 0 ? (
-            userProfile.following?.map((user) => (
-              <FollowingList
-                user={user}
-                key={user.following?.id}
-                loggedInUser={loggedInUser}
-                loggedInUserFollowingList={loggedInUserFollowingList}
-              />
-            ))
-          ) : (
-            <h4>None</h4>
-          )}
+      <div className="followingListWrapper">
+        <div className="followingList">
+          <h2 className="followingTitle">
+            Following{" "}
+            <span id="followingCount">({userProfile.following?.length})</span>
+          </h2>
+          <div className="followingContainer">
+            {userProfile.following?.length > 0 ? (
+              userProfile.following?.map((user) => (
+                <FollowingList
+                  user={user}
+                  key={user.following?.id}
+                  loggedInUser={loggedInUser}
+                  loggedInUserFollowingList={loggedInUserFollowingList}
+                />
+              ))
+            ) : (
+              <div className="noFollowersContainer">
+                <h4 className="noFollowersText">None Yet</h4>
+                <img src={unhappy} className="noFollowersImg" />
+              </div>
+            )}
+          </div>
+        </div>
+        <div className="followingList">
+          <h2 className="followingTitle">
+            Followers{" "}
+            <span id="followingCount">({userProfile.followers?.length})</span>
+          </h2>
+          <div className="followingContainer">
+            {userProfile.followers?.length > 0 ? (
+              userProfile.followers?.map((user) => (
+                <FollowersList
+                  user={user}
+                  key={user.user?.id}
+                  loggedInUser={loggedInUser}
+                  loggedInUserFollowingList={loggedInUserFollowingList}
+                />
+              ))
+            ) : (
+              <div className="noFollowersContainer">
+                <h4 className="noFollowersText">None Yet</h4>
+                <img src={unhappy} className="noFollowersImg" />
+              </div>
+            )}
+          </div>
         </div>
       </div>
-      <div className="followingList">
-        <h2 className="followingTitle">
-          Followers {userProfile.followers?.length}
-        </h2>
-        {userProfile.followers?.length > 0 ? (
-          userProfile.followers?.map((user) => (
-            <FollowersList
-              user={user}
-              key={user.user?.id}
-              loggedInUser={loggedInUser}
-              loggedInUserFollowingList={loggedInUserFollowingList}
-            />
-          ))
-        ) : (
-          <h4>None</h4>
-        )}
-      </div>
-      <input />
     </div>
   );
 }

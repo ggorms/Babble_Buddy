@@ -15,7 +15,7 @@ li {
   align-items: center;
   justify-content: space-around;
   /* padding: 0 10px; */
-  height: 8vh;
+  height: 70px;
   background-color: white;
 }
 .navLogo {
@@ -76,4 +76,11 @@ li {
 }
 .toggle .line3 {
   transform: rotate(45deg) translate(-4px, -4px);
+}
+
+@media screen and (min-width:750px) {
+  .navLogo {
+    width: 150px;
+    height: 35px;
+  }
 }

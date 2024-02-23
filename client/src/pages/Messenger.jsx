@@ -76,7 +76,7 @@ function Messenger() {
   const handleSubmitMessage = (e) => {
     e.preventDefault();
 
-    const receiverId = currentChat.members.find(
+    const receiverId = currentChat.UserConversation.find(
       (member) => member.userId !== user.userId
     );
 

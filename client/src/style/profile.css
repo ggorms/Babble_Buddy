@@ -1,11 +1,24 @@
-.profileCardWrapper{
+.profile {
     display: flex;
-    justify-content: center;
-    margin: 20px 10px;
+    height: 80vh;
+    flex-direction: column;
+    background-color: white;
+    margin: auto 10px;
     border-radius: 8px;
     box-shadow: 0 0 5px lightgray;
+}
+
+.profileCardWrapper{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 10px;
+    /* border-radius: 8px; */
+    /* box-shadow: 0 0 5px lightgray; */
     background-color: white;
     padding: 10px 0;
+    height: 30%;
 }
 
 .profilePicture {
@@ -16,23 +29,34 @@
 
 .profileName {
     padding-top: 10px;
-    margin-left: 25px;
+    text-align: center;
+    /* margin-left: 25px; */
     font-size: x-large;
 }
 
 .followingList {
-    margin: 20px 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 10%;
     background-color: white;
     box-shadow: 0 0 5px lightgray;
     border-radius: 8px;
-    height: 190px;
+    /* height: 190px; */
+    height: 40%;
 }
 
 .followingTitle {
     padding-left: 9px;
     padding-top: 9px;
     padding-bottom: 4px;
-    font-size: large;
+    font-size: larger;
+    color: teal;
+    height: 25%;
+}
+
+#followingCount {
+    color: rgb(70, 70, 70);
+    text-align: center;
 }
 
 .followingEntryContainer {
@@ -41,8 +65,9 @@
 }
 
 .followingContainer {
-    margin-top: 3px;
-    height: 145px;
+    /* margin-top: 3px; */
+    /* height: 145px; */
+    height: 75%;
     overflow-y: auto;
 }
 
@@ -56,11 +81,17 @@
     justify-content: space-between;
     align-items: center;
     padding: 5px;
-    border-radius: 8px;
+    /* border-radius: 8px; */
+}
+
+.buttonWrapper {
+    display: flex;
+    justify-content: space-around;
+    width: 170px;
 }
 
 .followingButton {
-    margin-left: 25px;
+    /* margin-left: 25px; */
     margin-top: 10px;
     width: 75px;
     height: 30px;
@@ -90,7 +121,8 @@
 
 
 .followingListEntry:hover {
-    box-shadow: 0 0 1px gray;
+    box-shadow: 0 0 2px black;
+    background-color: lightgray;
 }
 
 .followingListEntryPicture {
@@ -101,4 +133,76 @@
 
 .followingListEntryName {
     margin-left: 8px;
+}
+
+.noFollowersContainer {
+    display: flex;
+    height: 80%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.noFollowersText {
+    font-size: x-large;
+    margin-bottom: 10px;
+    color: rgb(124, 28, 213);
+}
+
+.noFollowersImg {
+    height: 60px;
+    width: 60px;
+}
+
+.profileNameAndButtons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.followingListWrapper {
+    height: 80%;
+}
+
+@media screen and (min-width: 750px) {
+    .profile {
+        margin: auto 50px;
+        height: 82vh;
+        padding-bottom: 5%;
+    }
+    .profilePicture {
+        height: 150px;
+        width: 150px;
+    }
+    .profileName {
+        font-size: xx-large;
+    }
+    .followingList {
+        margin-top: 5%;
+    }
+}
+
+@media screen and (min-width: 1000px) {
+    .profile {
+        margin: auto 70px;
+        
+    }
+}
+
+@media screen and (min-width: 1200px) {
+    .profile {
+        margin: auto 70px;
+    }
+    .followingListWrapper {
+        display: flex;
+        width: 100%;
+        height: 70%;
+    }
+    .followingList {
+        width: 40%;
+        height: 70%;
+        margin: auto;
+    }
+    .profileCardWrapper{
+        height: 40%;
+    }
 }
