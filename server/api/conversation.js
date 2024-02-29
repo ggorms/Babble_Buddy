@@ -35,11 +35,25 @@ router.post("/new", async (req, res, next) => {
         id: newConversation.id,
       },
       include: {
-        UserConversation: true,
+        UserConversation: {
+          include: {
+            user: true,
+          },
+        },
       },
     });
 
-    res.status(200).json(conversation);
+    const newConvo = {
+      id: conversation.id,
+      members: conversation.UserConversation.map((userConvo) => ({
+        userId: userConvo.user.id,
+        fName: userConvo.user.fName,
+        lName: userConvo.user.lName,
+        avatar: userConvo.user.avatar,
+      })),
+    };
+
+    res.status(200).json(newConvo);
   } catch (error) {
     console.error(error.message);
     next(error);
@@ -77,6 +91,7 @@ router.get("/:id", async (req, res, next) => {
         userId: userConvo.user.id,
         fName: userConvo.user.fName,
         lName: userConvo.user.lName,
+        avatar: userConvo.user.avatar,
       })),
     }));
 
@@ -115,11 +130,29 @@ router.get("/find/:userId/:friendId", async (req, res, next) => {
         },
       },
       include: {
-        UserConversation: true,
+        UserConversation: {
+          include: {
+            user: true,
+          },
+        },
       },
     });
 
-    res.status(200).json(conversation);
+    if (!conversation) {
+      res.status(200).json(conversation);
+    }
+
+    const convo = {
+      id: conversation.id,
+      members: conversation.UserConversation.map((userConvo) => ({
+        userId: userConvo.user.id,
+        fName: userConvo.user.fName,
+        lName: userConvo.user.lName,
+        avatar: userConvo.user.avatar,
+      })),
+    };
+
+    res.status(200).json(convo);
   } catch (error) {
     console.error(error.message);
     next(error);

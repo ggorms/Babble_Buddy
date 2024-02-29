@@ -1,0 +1,26 @@
+.chatUserSearchEntry {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px;
+}
+
+.chatUserSearchEntry:hover {
+    box-shadow: 0 0 1px black;
+    background-color: lightgray ;
+}
+
+.chatSearchEntryContainer {
+    display: flex;
+    align-items: center;
+}
+
+.chatSearchEntryImage {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+}
+
+.chatSearchEntryName {
+    margin-left: 8px;
+}

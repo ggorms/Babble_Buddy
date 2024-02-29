@@ -26,6 +26,7 @@ router.get("/:id", async (req, res, next) => {
         id: true,
         fName: true,
         lName: true,
+        avatar: true,
       },
     });
 
@@ -39,6 +40,7 @@ router.get("/:id", async (req, res, next) => {
             id: true,
             fName: true,
             lName: true,
+            avatar: true,
           },
         },
       },
@@ -54,6 +56,7 @@ router.get("/:id", async (req, res, next) => {
             id: true,
             fName: true,
             lName: true,
+            avatar: true,
           },
         },
       },
@@ -63,6 +66,7 @@ router.get("/:id", async (req, res, next) => {
       id: user.id,
       fName: user.fName,
       lName: user.lName,
+      avatar: user.avatar,
       following: userFollowings,
       followers: userFollowers,
     };
@@ -88,6 +92,7 @@ router.get("/following/:id", async (req, res, next) => {
             id: true,
             fName: true,
             lName: true,
+            avatar: true,
           },
         },
       },

@@ -1,4 +1,3 @@
-import Placeholder from "../assets/placeholder.jpg";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -9,10 +8,10 @@ import {
 } from "../store/user";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import {
-  userAndFriendConversationThunk,
-  newConversationThunk,
-} from "../store/conversation";
+// import {
+//   userAndFriendConversationThunk,
+//   newConversationThunk,
+// } from "../store/conversation";
 import FollowingList from "../components/FollowingList";
 import FollowersList from "../components/FollowersList";
 import { logoutThunk } from "../store/auth";
@@ -58,44 +57,17 @@ function Profile({ loggedInUser, loggedInUserFollowingList }) {
     }
   };
 
-  const conversation = useSelector(
-    (state) => state.conversation.userAndFriendConversation
-  );
-
-  useEffect(() => {
-    if (loggedInUser.userId !== userProfile.id) {
-      const members = {
-        userId: loggedInUser.userId,
-        friendId: userProfile.id,
-      };
-      dispatch(userAndFriendConversationThunk(members));
-    }
-  }, [dispatch, loggedInUser.userId, userProfile.id]);
-
-  const handleChatLinkClick = () => {
-    if (conversation === null) {
-      const members = {
-        senderId: loggedInUser.userId,
-        receiverId: userProfile.id,
-      };
-      dispatch(newConversationThunk(members)).then(() => {
-        navigate("/messenger");
-      });
-    } else {
-      navigate("/messenger");
-    }
-  };
-
   const handleLogout = (e) => {
     e.preventDefault();
     dispatch(logoutThunk()).then(() => {
       navigate("/");
+      location.reload();
     });
   };
   return (
     <div className="profile">
       <div className="profileCardWrapper">
-        <img src={Placeholder} className="profilePicture" />
+        <img src={userProfile.avatar} className="profilePicture" />
         <div className="profileNameAndButtons">
           <h1 className="profileName">
             {userProfile.fName} {userProfile.lName}
@@ -108,12 +80,6 @@ function Profile({ loggedInUser, loggedInUserFollowingList }) {
                 className="followingButton"
               >
                 {followingButtonLogic}
-              </button>
-              <button
-                onClick={() => handleChatLinkClick()}
-                className="followingButton"
-              >
-                Chat
               </button>
             </div>
           ) : (

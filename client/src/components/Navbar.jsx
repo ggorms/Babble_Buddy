@@ -59,14 +59,6 @@ function Navbar({
             Profile
           </Link>
         </li>
-
-        <li
-          className="nav__item"
-          onClick={() => {
-            setActive("nav__menu");
-            setIcon("nav__toggler");
-          }}
-        ></li>
       </ul>
       <div onClick={navToggle} className={icon}>
         <div className="line1"></div>

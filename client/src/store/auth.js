@@ -5,6 +5,7 @@ const BASE_URL = "http://localhost:8080";
 const REGISTER = "REGISTER";
 const LOGIN = "LOGIN";
 const LOGOUT = "LOGOUT";
+const ERROR = "ERROR";
 
 const register = (user) => ({
   type: REGISTER,
@@ -28,6 +29,11 @@ const getToken = () => {
   }
   return null;
 };
+
+const errorHandle = (err) => ({
+  type: ERROR,
+  payload: err,
+});
 
 export const loginThunk = (credentials) => async (dispatch) => {
   try {
@@ -64,7 +70,9 @@ export const loginThunk = (credentials) => async (dispatch) => {
       })
     );
   } catch (error) {
-    console.error(error);
+    dispatch(errorHandle(error.response.data.message));
+    // console.error(error);
+    // return dispatch(login(error.response.data.message));
   }
 };
 
@@ -107,7 +115,7 @@ export const registerThunk = (credentials) => async (dispatch) => {
       })
     );
   } catch (error) {
-    console.error(error);
+    dispatch(errorHandle(error.response.data.message));
   }
 };
 
@@ -128,6 +136,7 @@ const initialState = {
     token: getToken(),
     userInfo: JSON.parse(window.sessionStorage.getItem("userInfo")) || {},
   },
+  authError: null,
 };
 
 export default function (state = initialState, action) {
@@ -138,6 +147,8 @@ export default function (state = initialState, action) {
       return { ...state, user: action.payload };
     case LOGOUT:
       return { ...state, user: action.payload };
+    case ERROR:
+      return { ...state, authError: action.payload };
     default:
       return state;
   }

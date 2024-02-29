@@ -13,6 +13,7 @@ model User {
   password         String
   fName            String
   lName            String
+  avatar           String
   Message          Message[]
   UserConversation UserConversation[]
   user             UserRelationship[] @relation("user")

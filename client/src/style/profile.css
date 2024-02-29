@@ -51,7 +51,7 @@
     padding-bottom: 4px;
     font-size: larger;
     color: teal;
-    height: 25%;
+    height: 20%;
 }
 
 #followingCount {
@@ -67,7 +67,7 @@
 .followingContainer {
     /* margin-top: 3px; */
     /* height: 145px; */
-    height: 75%;
+    height: 80%;
     overflow-y: auto;
 }
 
@@ -93,7 +93,7 @@
 .followingButton {
     /* margin-left: 25px; */
     margin-top: 10px;
-    width: 75px;
+    width: 100px;
     height: 30px;
     border-radius: 8px;
     border: none;

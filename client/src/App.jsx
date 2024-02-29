@@ -13,6 +13,7 @@ import Footer from "./components/Footer";
 function App() {
   const dispatch = useDispatch();
   const [activeSearch, setActiveSearch] = useState(false);
+  const [activeChatSearch, setActiveChatSearch] = useState(false);
   const loggedInUser = useSelector((state) => state.auth.user.userInfo);
   const loggedInUserFollowingList = useSelector(
     (state) => state.user.userFollowingList
@@ -21,7 +22,7 @@ function App() {
 
   useEffect(() => {
     dispatch(userFollowingListThunk(loggedInUser?.userId));
-  }, [dispatch, loggedInUser]);
+  }, [loggedInUser?.userId]);
 
   if (!token) {
     return (
@@ -31,7 +32,13 @@ function App() {
     );
   } else if (token) {
     return (
-      <div id="app" onClick={() => setActiveSearch(false)}>
+      <div
+        id="app"
+        onClick={() => {
+          setActiveChatSearch(false);
+          setActiveSearch(false);
+        }}
+      >
         <Navbar
           loggedInUser={loggedInUser}
           loggedInUserFollowingList={loggedInUserFollowingList}
@@ -58,7 +65,17 @@ function App() {
             }
           />
           {/* <Route path="/auth" element={<Auth />} /> */}
-          <Route path="/messenger" element={<Messenger />} />
+          <Route
+            path="/messenger"
+            element={
+              <Messenger
+                loggedInUserFollowingList={loggedInUserFollowingList}
+                loggedInUser={loggedInUser}
+                activeChatSearch={activeChatSearch}
+                setActiveChatSearch={setActiveChatSearch}
+              />
+            }
+          />
         </Routes>
         <Footer />
       </div>

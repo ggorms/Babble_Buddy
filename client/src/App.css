@@ -11,6 +11,8 @@
 @import "./style/instructions.css";
 @import "./style/footer.css";
 @import "./style/aboutUs.css";
+@import "./style/chatUserSearchEntry.css";
+@import "./style/chatUserSearch.css";
 
 body {
   margin: 0;

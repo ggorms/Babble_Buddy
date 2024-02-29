@@ -42,7 +42,7 @@ function UserSearchEntry({ user, loggedInUser, loggedInUserFollowingList }) {
     <Link key={user.id} to={`/profile/${user.id}`} className="userSearchLink">
       <div className="userSearchEntry">
         <div className="searchEntryContainer">
-          <img src={placeholder} className="searchEntryImage" />
+          <img src={user.avatar} className="searchEntryImage" />
           <h5 className="searchEntryName">
             {user.fName} {user.lName}
           </h5>

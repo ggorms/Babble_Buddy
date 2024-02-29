@@ -8,9 +8,14 @@ import { conversationMessagesThunk, newMessageThunk } from "../store/message";
 import { io } from "socket.io-client";
 import unhappy from "../assets/unhappy.png";
 import SendIcon from "@mui/icons-material/Send";
+import ChatUserSearch from "../components/ChatUserSearch";
 
-function Messenger() {
-  const conversation = useSelector(
+function Messenger({
+  loggedInUserFollowingList,
+  activeChatSearch,
+  setActiveChatSearch,
+}) {
+  const userAndFriendConversation = useSelector(
     (state) => state.conversation.userAndFriendConversation
   );
 
@@ -19,12 +24,16 @@ function Messenger() {
   );
 
   const [currentChat, setCurrentChat] = useState(
-    conversation || newConversation
+    // userAndFriendConversation || newConversation
+    {}
   );
+
+  // console.log("currChat", currentChat);
+  // console.log("uandf", userAndFriendConversation);
   const [newMessage, setNewMessage] = useState("");
-  const [arrivalMessage, setArrivalMessage] = useState(null);
+  const [arrivalMessage, setArrivalMessage] = useState({});
   const [onlineUsers, setOnlineUsers] = useState([]);
-  const [convoSearchValue, setConvoSearchValue] = useState("");
+
   const dispatch = useDispatch();
   const scrollRef = useRef();
   const socket = useRef();
@@ -32,20 +41,47 @@ function Messenger() {
   const user = window.sessionStorage.getItem("userInfo")
     ? JSON.parse(window.sessionStorage.getItem("userInfo"))
     : "";
+  const conversations = useSelector(
+    (state) => state.conversation.userConversations
+  );
   const messages = useSelector((state) => state.message.conversationMessages);
 
+  // Ensure socket is the same and handle receiving messages
   useEffect(() => {
     if (!socket.current) {
       socket.current = io("ws://localhost:8081");
     }
     socket.current.on("getMessage", (data) => {
-      setArrivalMessage({
+      // console.log("MESSAGE RECEIVED", data);
+      // setCurrentChat({id: data.conversationId})
+      // dispatch(conversationMessagesThunk(data.conversationId));
+      setArrivalMessage((prev) => ({
+        ...prev,
         text: data.text,
-        // conversationId: currentChat?.id,
         senderId: data.senderId,
-      });
+      }));
+      const conversationExists = conversations.some((convo) =>
+        convo.members.some((member) => member.userId === data.senderId)
+      );
+      if (!conversationExists) {
+        dispatch(userConversationsThunk(user.userId));
+      }
     });
   }, []);
+
+  // console.log("arrivalMessage", arrivalMessage);
+  // Handle scrolling to end of div
+  useEffect(() => {
+    scrollRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages.length]);
+
+  // When a new user logs on add them to online users
+  useEffect(() => {
+    socket.current.emit("addUser", user.userId);
+    socket.current.on("getUsers", (users) => {
+      setOnlineUsers(users);
+    });
+  }, [user.userId]);
 
   useEffect(() => {
     if (
@@ -56,27 +92,17 @@ function Messenger() {
     ) {
       dispatch(conversationMessagesThunk(currentChat?.id));
     }
-  }, [arrivalMessage, currentChat]);
+  }, [arrivalMessage, currentChat, dispatch]);
 
-  useEffect(() => {
-    socket.current.emit("addUser", user.userId);
-    socket.current.on("getUsers", (users) => {
-      setOnlineUsers(users);
-    });
-  }, [user.userId]);
-
-  const conversations = useSelector(
-    (state) => state.conversation.userConversations
-  );
-
+  // Get all of a user's conversations
   useEffect(() => {
     dispatch(userConversationsThunk(user.userId));
-  }, [user.userId, dispatch]);
+  }, [user.userId, dispatch, newConversation?.id]);
 
   const handleSubmitMessage = (e) => {
     e.preventDefault();
 
-    const receiverId = currentChat.UserConversation.find(
+    const receiverId = currentChat?.members.find(
       (member) => member.userId !== user.userId
     );
 
@@ -85,6 +111,7 @@ function Messenger() {
       senderId: user.userId,
       conversationId: currentChat?.id,
     };
+    console.log("newMessage", message);
     dispatch(newMessageThunk(message))
       .then(() => {
         dispatch(conversationMessagesThunk(currentChat?.id));
@@ -94,6 +121,7 @@ function Messenger() {
           senderId: user.userId,
           receiverId: receiverId.userId,
           text: newMessage,
+          conversationId: currentChat?.id,
         });
       });
     setNewMessage("");
@@ -104,57 +132,76 @@ function Messenger() {
   }, [currentChat?.id, dispatch]);
 
   useEffect(() => {
-    scrollRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+    setCurrentChat(userAndFriendConversation);
+    console.log("userFriendConvoHit");
+  }, [userAndFriendConversation]);
 
   useEffect(() => {
-    dispatch(conversationMessagesThunk(conversation?.id)).then(() => {
-      setCurrentChat(conversation);
-    });
-  }, [conversation, dispatch]);
+    setCurrentChat(newConversation);
+    console.log("newConvoHit");
+  }, [newConversation, newConversation.id]);
 
-  useEffect(() => {
-    dispatch(conversationMessagesThunk(newConversation.id)).then(() => {
-      setCurrentChat(newConversation);
-    });
-  }, [newConversation.id, dispatch]);
+  // useEffect(() => {
+  //   if (Object.keys(newConversation).length !== 0) {
+  //     // dispatch(conversationMessagesThunk(newConversation?.id));
+  //     setCurrentChat(newConversation);
+  //     console.log("newConvoHit");
+  //   } else if (
+  //     userAndFriendConversation !== null &&
+  //     Object.keys(userAndFriendConversation).length !== 0
+  //   ) {
+  //     // dispatch(conversationMessagesThunk(userAndFriendConversation?.id));
+  //     setCurrentChat(userAndFriendConversation);
+  //     console.log("userFriendConvoHit");
+  //   }
+  // }, [userAndFriendConversation?.id, newConversation?.id]);
+
   // console.log(conversations);
 
   console.log("currChat", currentChat);
 
-  const filteredConvos = conversations.filter(
-    (convo) =>
-      convo.members[1].fName
-        .toLowerCase()
-        .startsWith(convoSearchValue.toLocaleLowerCase()) ||
-      convo.members[1].lName
-        .toLowerCase()
-        .startsWith(convoSearchValue.toLocaleLowerCase())
-  );
+  // const filteredConvos = conversations.filter(
+  //   (convo) =>
+  //     convo.members[1].fName
+  //       .toLowerCase()
+  //       .startsWith(convoSearchValue.toLocaleLowerCase()) ||
+  //     convo.members[1].lName
+  //       .toLowerCase()
+  //       .startsWith(convoSearchValue.toLocaleLowerCase())
+  // );
   // console.log("filtered", filteredConvos);
+  // console.log("conversations", conversations);
+
+  // const focusedChat = conversation.id === currentChat.id;
   return (
     <div className="messenger">
       <div className="convoAndOnlineCluster">
         <div className="chatMenu">
           <h2 id="title">Conversations ({conversations.length})</h2>
+          <ChatUserSearch
+            setActiveChatSearch={setActiveChatSearch}
+            activeChatSearch={activeChatSearch}
+            loggedInUser={user}
+            conversations={conversations}
+          />
           {conversations.length > 0 ? (
             <>
-              <input
-                placeholder="Search..."
-                className="chatMenuInput"
-                onChange={(e) => setConvoSearchValue(e.target.value)}
-              />
               <div className="chatMenuWrapper">
-                {filteredConvos.map((convo) => (
+                {conversations.map((convo) => (
                   <div
                     key={convo.id}
                     onClick={() => setCurrentChat(convo)}
-                    className="chatMenuEntryWrapper"
+                    className={
+                      convo.id === currentChat.id
+                        ? "chatMenuEntryWrapper focused"
+                        : "chatMenuEntryWrapper"
+                    }
                   >
                     <Conversation
                       conversation={convo}
                       currentUser={user}
                       onlineUsers={onlineUsers}
+                      currentChat={currentChat}
                     />
                   </div>
                 ))}
@@ -172,7 +219,12 @@ function Messenger() {
         <div className="chatOnlineParent">
           <h2 id="title">Online Friends</h2>
           <div className="chatOnlineWrapper">
-            <ChatOnline onlineUsers={onlineUsers} currentUserId={user.userId} />
+            <ChatOnline
+              onlineUsers={onlineUsers}
+              currentUserId={user.userId}
+              loggedInUserFollowingList={loggedInUserFollowingList}
+              conversations={conversations}
+            />
           </div>
         </div>
       </div>

@@ -1,10 +1,11 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { loginThunk, registerThunk } from "../store/auth";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import TextField from "@mui/material/TextField";
 
 function Auth() {
-  // const navigate = useNavigate();
+  const errorMessage = useSelector((state) => state.auth.authError);
+  const [error, setError] = useState(false);
 
   const [credentials, setCredentials] = useState({
     fName: "",
@@ -18,19 +19,12 @@ function Auth() {
 
   const attemptAuth = async (e) => {
     e.preventDefault();
+    setError(true);
     if (isLogin) {
-      try {
-        const { email, password } = credentials;
-        dispatch(loginThunk({ email, password }));
-      } catch (error) {
-        console.error(error.message);
-      }
+      const { email, password } = credentials;
+      dispatch(loginThunk({ email, password }));
     } else {
-      try {
-        dispatch(registerThunk(credentials));
-      } catch (error) {
-        console.error(error.message);
-      }
+      dispatch(registerThunk(credentials));
     }
   };
 
@@ -126,13 +120,25 @@ function Auth() {
               setCredentials({ ...credentials, password: e.target.value })
             }
           />
-
+          {error && <p className="authErrorMessage">{errorMessage}</p>}
           <button type="submit" className="authButton">
             {authType}
           </button>
           <p className="authMessage">
             {authTypeMessage}{" "}
-            <a onClick={() => setIslogin(!isLogin)} className="authTypeSwitch">
+            <a
+              onClick={() => {
+                setError(false);
+                setIslogin(!isLogin);
+                setCredentials({
+                  fName: "",
+                  lName: "",
+                  email: "",
+                  password: "",
+                });
+              }}
+              className="authTypeSwitch"
+            >
               {" "}
               {oppositeAuthType}
             </a>

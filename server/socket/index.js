@@ -32,11 +32,12 @@ io.on("connection", (socket) => {
   });
 
   // Send and Get message
-  socket.on("sendMessage", ({ senderId, receiverId, text }) => {
+  socket.on("sendMessage", ({ senderId, receiverId, text, conversationId }) => {
     const user = getUser(receiverId);
     io.to(user?.socketId).emit("getMessage", {
       senderId,
       text,
+      conversationId,
     });
   });
 

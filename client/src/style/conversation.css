@@ -1,3 +1,7 @@
+.focused {
+    background-color: lightgray;
+}
+
 .conversation {
     display: flex;
     flex-direction: column;

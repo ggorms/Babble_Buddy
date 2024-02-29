@@ -47,7 +47,10 @@ function FollowingList({ user, loggedInUser, loggedInUserFollowingList }) {
     >
       <div className="followingListEntry">
         <div className="followingEntryContainer">
-          <img src={Placeholder} className="followingListEntryPicture" />
+          <img
+            src={user.following?.avatar}
+            className="followingListEntryPicture"
+          />
           <h5 className="followingListEntryName">
             {user.following?.fName} {user.following?.lName}
           </h5>
