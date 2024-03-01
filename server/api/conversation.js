@@ -8,14 +8,17 @@ router.post("/new", async (req, res, next) => {
   try {
     const { senderId, receiverId } = req.body;
 
+    // Do not start from id: 1 automatically, dynamically increment ids based on highest previous id
     await prisma.$executeRaw`
     SELECT setval((
         SELECT PG_GET_SERIAL_SEQUENCE('"Conversation"', 'id')),
         (SELECT (MAX("id") + 1) FROM "Conversation"),
         false) FROM "Conversation"`;
 
+    // Create the conversation
     const newConversation = await prisma.conversation.create();
 
+    // Create user and conversation through table link for the sender
     const newUserConversation__sender = await prisma.userConversation.create({
       data: {
         userId: senderId,
@@ -23,6 +26,7 @@ router.post("/new", async (req, res, next) => {
       },
     });
 
+    // Create user and conversation through table link for the receiver
     const newUserConversation__receiver = await prisma.userConversation.create({
       data: {
         userId: receiverId,
@@ -30,6 +34,7 @@ router.post("/new", async (req, res, next) => {
       },
     });
 
+    // Get the newly created conversation and include the members
     const conversation = await prisma.conversation.findUnique({
       where: {
         id: newConversation.id,
@@ -43,6 +48,7 @@ router.post("/new", async (req, res, next) => {
       },
     });
 
+    // Structure data
     const newConvo = {
       id: conversation.id,
       members: conversation.UserConversation.map((userConvo) => ({
@@ -72,6 +78,7 @@ router.get("/:id", async (req, res, next) => {
       },
     });
 
+    // Find the members of the conversations
     const convoMembers = await prisma.conversation.findMany({
       where: {
         id: { in: conversations.map((convo) => convo.conversationId) },
@@ -85,6 +92,7 @@ router.get("/:id", async (req, res, next) => {
       },
     });
 
+    // Structure data
     const convos = convoMembers.map((convo) => ({
       id: convo.id,
       members: convo.UserConversation.map((userConvo) => ({
@@ -103,7 +111,6 @@ router.get("/:id", async (req, res, next) => {
 });
 
 // Get conversation based on two users
-
 router.get("/find/:userId/:friendId", async (req, res, next) => {
   const { userId, friendId } = req.params;
   // Find conversations the user is apart of
@@ -114,8 +121,7 @@ router.get("/find/:userId/:friendId", async (req, res, next) => {
       },
     });
 
-    // Find the conversation that the friend is also apart of
-
+    // Find the conversation that the other user is also apart of
     const conversation = await prisma.conversation.findFirst({
       where: {
         UserConversation: {
@@ -138,10 +144,12 @@ router.get("/find/:userId/:friendId", async (req, res, next) => {
       },
     });
 
+    // If no conversation is found return null
     if (!conversation) {
       res.status(200).json(conversation);
     }
 
+    // Structure data
     const convo = {
       id: conversation.id,
       members: conversation.UserConversation.map((userConvo) => ({

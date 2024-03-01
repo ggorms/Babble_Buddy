@@ -9,7 +9,6 @@ const { AvatarGenerator } = require("random-avatar-generator");
 const generator = new AvatarGenerator();
 
 // Login route for existing users
-
 router.post("/login", async (req, res, next) => {
   const { email, password } = req.body;
   // Check if provided email corresponds to an existing user
@@ -44,7 +43,6 @@ router.post("/login", async (req, res, next) => {
 });
 
 // Register route for new users
-
 router.post(
   "/register",
   body("fName")

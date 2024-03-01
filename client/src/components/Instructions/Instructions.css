@@ -1,0 +1,51 @@
+.instructionsWrapper {
+    margin: 15px 15px;
+}
+
+.instructionContainer {
+    padding: 10px;
+    margin: 10px 0;
+    display: flex;
+}
+
+.instructionBulletPoint {
+    background-color: teal;
+    color: white;
+    font-weight: bold;
+    cursor: none;
+    border: none;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+}
+
+.instructionText {
+    margin-left: 20px;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.instructionTitle {
+    font-weight: bold;
+    font-size: larger;
+}
+
+.instructionWording {
+    margin-top: 15px;
+    font-weight: lighter;
+    font-size: large;
+    color: grey;
+}
+
+@media screen and (min-width: 1200px) {
+    .instructionsParent {
+        display: flex;
+        justify-content: center;
+    }
+    .instructionContainer {
+        padding: 15px;
+    }
+    .instructionsWrapper {
+        margin: 15px 0;
+        width: 40%;
+    }
+}

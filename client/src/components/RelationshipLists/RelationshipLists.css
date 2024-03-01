@@ -1,0 +1,33 @@
+.followingLink {
+    text-decoration: none;
+    color: black;
+}
+
+.followingListEntry {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px;
+}
+
+.followingListEntry:hover {
+    box-shadow: 0 0 2px black;
+    background-color: lightgray;
+}
+
+.followingEntryContainer {
+    display: flex;
+    align-items: center;
+}
+
+.followingListEntryPicture {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+}
+
+.followingListEntryName {
+    margin-left: 8px;
+}
+
+

@@ -1,18 +1,4 @@
 @import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400,700");
-@import "./style/navbar.css";
-@import "./style/messenger.css";
-@import "./style/conversation.css";
-@import "./style/message.css";
-@import "./style/chatOnline.css";
-@import "./style/profile.css";
-@import "./style/auth.css";
-@import "./style/home.css";
-@import "./style/userSearch.css";
-@import "./style/instructions.css";
-@import "./style/footer.css";
-@import "./style/aboutUs.css";
-@import "./style/chatUserSearchEntry.css";
-@import "./style/chatUserSearch.css";
 
 body {
   margin: 0;
@@ -20,7 +6,6 @@ body {
   box-sizing: border-box;
   background-color: rgb(241 245 249);
   height: 100%;
-  
 }
 
 #app {

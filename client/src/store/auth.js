@@ -71,8 +71,6 @@ export const loginThunk = (credentials) => async (dispatch) => {
     );
   } catch (error) {
     dispatch(errorHandle(error.response.data.message));
-    // console.error(error);
-    // return dispatch(login(error.response.data.message));
   }
 };
 

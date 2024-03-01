@@ -1,36 +1,42 @@
 import "./App.css";
-import Home from "./pages/Home";
+import Home from "./pages/Home/Home";
 import { Route, Routes } from "react-router-dom";
-import Auth from "./components/Auth";
-import Messenger from "./pages/Messenger";
-import Profile from "./pages/Profile";
+import Auth from "./components/Auth/Auth";
+import Messenger from "./pages/Messenger/Messenger";
+import Profile from "./pages/Profile/Profile";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { userFollowingListThunk } from "./store/user";
-import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
+import Navbar from "./components/Navbar/Navbar";
+import Footer from "./components/Footer/Footer";
 
 function App() {
   const dispatch = useDispatch();
   const [activeSearch, setActiveSearch] = useState(false);
   const [activeChatSearch, setActiveChatSearch] = useState(false);
+
   const loggedInUser = useSelector((state) => state.auth.user.userInfo);
+
   const loggedInUserFollowingList = useSelector(
     (state) => state.user.userFollowingList
   );
   const token = useSelector((state) => state.auth.user.token);
 
+  // Fetch logged in users followings
   useEffect(() => {
     dispatch(userFollowingListThunk(loggedInUser?.userId));
   }, [loggedInUser?.userId]);
 
+  // If no user logged in
   if (!token) {
     return (
       <Routes>
         <Route path="/*" element={<Auth />} />
       </Routes>
     );
-  } else if (token) {
+  }
+  // If user logged in
+  else if (token) {
     return (
       <div
         id="app"

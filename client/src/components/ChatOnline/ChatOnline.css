@@ -1,0 +1,59 @@
+.chatOnline {
+    display: flex;
+}
+
+.chatOnlineFriend {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    height: 100px;
+    width: 100px;
+    padding: 10px;
+}
+
+.chatOnlineFriend:hover {
+    background-color: lightgray;
+}
+
+.chatOnlineImgContainer {
+    position: relative;
+}
+
+.chatOnlineImg {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.chatOnlineBadge {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: limegreen;
+    top: 2px;
+    right: 2px;
+}
+
+.chatOnlineName {
+    text-align: center;
+    padding-top: 5px;
+    font-weight: 500;
+}
+
+@media screen and (min-width:1200px) {
+    .chatOnline {
+        flex-direction: column;
+        margin-top: 20px;
+    }
+    .chatOnlineFriend {
+        flex-direction: row;
+        width: 200px;
+        height: 50px;
+    }
+    .chatOnlineName {
+        margin-left: 10px;
+        padding-top: 0;
+    }
+}

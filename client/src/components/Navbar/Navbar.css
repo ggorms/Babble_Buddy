@@ -1,0 +1,86 @@
+li {
+  list-style: none;
+}
+.nav__link {
+  text-decoration: none;
+  color: black;
+  font-size: large;
+  font-weight: bold;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  height: 70px;
+  background-color: white;
+}
+.navLogo {
+  width: 120px;
+  height: 25px;
+  cursor: pointer;
+}
+
+.nav__menu {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  gap: 3rem;
+}
+.nav__toggler {
+  display: none;
+  margin-right: 5px;
+}
+.nav__toggler div {
+  width: 1.5rem;
+  height: 0.1rem;
+  margin: 0.3rem;
+  background: rgb(204, 204, 204);
+  transition: 0.3s ease-in;
+}
+
+@media screen and (max-width: 768px) {
+  .nav__toggler {
+    display: block;
+    cursor: pointer;
+  }
+  .nav__menu {
+    position: fixed;
+    top: 5.7vh;
+    right: 0;
+    justify-content: unset;
+    height: 94vh;
+    width: 100vw;
+    background: white;
+    z-index: 99;
+    flex-direction: column;
+    transform: translateX(100%);
+    transition: 0.5s ease-in;
+  }
+  .nav__item {
+    margin-top: 50px;
+  }
+}
+/* Active Class */
+.nav__active {
+  transform: translateX(0%);
+}
+
+/* Toggle Icon Animation */
+
+.toggle .line1 {
+  transform: rotate(-45deg) translate(-4px, 4px);
+}
+.toggle .line2 {
+  opacity: 0;
+}
+.toggle .line3 {
+  transform: rotate(45deg) translate(-4px, -4px);
+}
+
+@media screen and (min-width:750px) {
+  .navLogo {
+    width: 150px;
+    height: 35px;
+  }
+}

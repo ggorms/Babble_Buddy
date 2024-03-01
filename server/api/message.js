@@ -3,6 +3,7 @@ const router = express.Router();
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
+// Create new message
 router.post("/new", async (req, res, next) => {
   try {
     const { text, conversationId, senderId } = req.body;
@@ -21,6 +22,7 @@ router.post("/new", async (req, res, next) => {
   }
 });
 
+// Get all messages belonging to a particular conversation
 router.get("/:conversationId", async (req, res, next) => {
   try {
     const { conversationId } = req.params;

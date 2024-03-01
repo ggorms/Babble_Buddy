@@ -30,6 +30,7 @@ router.get("/:id", async (req, res, next) => {
       },
     });
 
+    // Get all of the user's followings
     const userFollowings = await prisma.userRelationship.findMany({
       where: {
         userId: user.id,
@@ -46,6 +47,7 @@ router.get("/:id", async (req, res, next) => {
       },
     });
 
+    // Get all of the user's followers
     const userFollowers = await prisma.userRelationship.findMany({
       where: {
         followingId: user.id,
@@ -62,6 +64,7 @@ router.get("/:id", async (req, res, next) => {
       },
     });
 
+    // Structure data
     const sinlgeUser = {
       id: user.id,
       fName: user.fName,
@@ -124,7 +127,6 @@ router.post("/follow/:userId/:followingId", async (req, res, next) => {
 // Unfollow a user
 router.delete("/unfollow/:userId/:followingId", async (req, res, next) => {
   const { userId, followingId } = req.params;
-  // USE PARAMS INSTEAD OF REQ.BODY
   try {
     const unfollowUser = await prisma.userRelationship.delete({
       where: {

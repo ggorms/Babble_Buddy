@@ -1,0 +1,19 @@
+.emptyContainer {
+    display: flex;
+    margin: 10px;
+}
+
+.emptyText {
+    font-family: "Sixtyfour", sans-serif;
+    font-variation-settings:
+    "BLED" 0,
+    "SCAN" -28;
+    text-align: center;
+    cursor:default;
+    font-size: x-large;
+}
+
+.emptyImage {
+    height: 50px;
+    width: 50px;
+}
