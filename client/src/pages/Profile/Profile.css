@@ -1,6 +1,6 @@
 .profile {
     display: flex;
-    height: 80vh;
+    height: 83vh;
     flex-direction: column;
     background-color: white;
     margin: auto 10px;
@@ -31,6 +31,9 @@
     font-size: x-large;
 }
 
+.followingListWrapper {
+    height: 65%;
+}
 .followingList {
     margin-left: 10px;
     margin-right: 10px;
@@ -100,9 +103,7 @@
     flex-direction: column;
     align-items: center;
 }
-.followingListWrapper {
-    height: 80%;
-}
+
 
 @media screen and (min-width: 750px) {
     .profile {
@@ -130,9 +131,6 @@
 }
 
 @media screen and (min-width: 1200px) {
-    .profile {
-        margin: auto 70px;
-    }
     .followingListWrapper {
         display: flex;
         width: 100%;

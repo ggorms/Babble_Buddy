@@ -30,6 +30,9 @@ router.get("/:conversationId", async (req, res, next) => {
       where: {
         conversationId: +conversationId,
       },
+      include: {
+        sender: true,
+      },
     });
     res.status(200).json(messages);
   } catch (error) {
