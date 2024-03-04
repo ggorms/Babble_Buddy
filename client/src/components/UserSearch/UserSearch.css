@@ -104,4 +104,7 @@
         max-height: 300px;
         width: 350px;
     }
+    .searchInputWrapper {
+        width: 300px;
+    }
 }

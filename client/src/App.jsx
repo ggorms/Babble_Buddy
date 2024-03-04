@@ -22,7 +22,7 @@ function App() {
   );
   const token = useSelector((state) => state.auth.user.token);
 
-  // Fetch logged in users followings
+  // Fetch logged in user's followings
   useEffect(() => {
     dispatch(userFollowingListThunk(loggedInUser?.userId));
   }, [loggedInUser?.userId]);
