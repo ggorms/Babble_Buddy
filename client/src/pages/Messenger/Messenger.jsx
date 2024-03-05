@@ -57,13 +57,15 @@ function Messenger({
 
   // Refetch messages whenever the currentChat changes
   useEffect(() => {
-    dispatch(conversationMessagesThunk(currentChat?.id));
+    if (currentChat?.id) {
+      dispatch(conversationMessagesThunk(currentChat?.id));
+    }
   }, [currentChat?.id, dispatch]);
 
   // Ensure socket is the same and handle receiving messages
   useEffect(() => {
     if (!socket.current) {
-      socket.current = io("ws://localhost:8081");
+      socket.current = io("ws://localhost:8080");
     }
     socket.current.on("getMessage", (data) => {
       setArrivalMessage((prev) => ({
