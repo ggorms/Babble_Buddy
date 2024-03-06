@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "http://localhost:8080";
+const BASE_URL = "https://babble-buddy-server.onrender.com";
 
 const GET_ALL_USERS = "GET_ALL_USERS";
 const GET_SINGLE_USER = "GET_SINGLE_USER";
