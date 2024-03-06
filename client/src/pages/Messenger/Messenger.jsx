@@ -32,7 +32,7 @@ function Messenger({
     (state) => state.conversation.userAndFriendConversation
   );
 
-  // User's most recent new conversation, if one exists
+  // Logged in user's most recent new conversation, if one exists
   const newConversation = useSelector(
     (state) => state.conversation.newConversation
   );
