@@ -75,6 +75,7 @@
     bottom: 0;
     resize: none;
     outline: none;
+    font-size: 16px;
 }
 
 .chatSubmitButton {
