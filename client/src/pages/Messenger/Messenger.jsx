@@ -65,7 +65,7 @@ function Messenger({
   // Ensure socket is the same and handle receiving messages
   useEffect(() => {
     if (!socket.current) {
-      socket.current = io("https://babble-buddy.onrender.com/");
+      socket.current = io("ws://localhost:8080");
     }
     socket.current.on("getMessage", (data) => {
       setArrivalMessage((prev) => ({

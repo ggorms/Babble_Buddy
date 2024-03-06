@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "https://babble-buddy.onrender.com";
+const BASE_URL = "http://localhost:8080";
 
 const REGISTER = "REGISTER";
 const LOGIN = "LOGIN";
