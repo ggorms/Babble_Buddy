@@ -25,7 +25,7 @@ app.use((err, req, res, next) => {
 
 const io = require("socket.io")(server, {
   cors: {
-    origin: "http://localhost:5173",
+    origin: "https://babble-buddy-jm87.onrender.com/messenger",
   },
 });
 
