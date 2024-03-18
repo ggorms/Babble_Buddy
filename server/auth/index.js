@@ -15,7 +15,7 @@ router.post("/login", async (req, res, next) => {
   try {
     const foundUser = await prisma.user.findUnique({
       where: {
-        email,
+        email: email.toLowerCase(),
       },
     });
 
@@ -77,10 +77,10 @@ router.post(
 
           const newUser = await prisma.user.create({
             data: {
-              email,
+              email: email.toLowerCase(),
               password: hashedPassword,
-              fName: fName[0].toUpperCase() + fName.slice(1),
-              lName: lName[0].toUpperCase() + lName.slice(1),
+              fName: fName[0].toUpperCase() + fName.slice(1).toLowerCase(),
+              lName: lName[0].toUpperCase() + lName.slice(1).toLowerCase(),
               avatar: generator.generateRandomAvatar(`${email}`),
             },
           });

@@ -26,6 +26,18 @@ function Messenger({
   const [newMessage, setNewMessage] = useState("");
   const [arrivalMessage, setArrivalMessage] = useState({});
   const [onlineUsers, setOnlineUsers] = useState([]);
+  const [typingIndicator, setTypingIndicator] = useState({
+    convoId: null,
+    isTyping: false,
+    activeIndicator: false,
+  });
+
+  const currentChatRef = useRef(currentChat);
+
+  const setCurrentChatRef = (data) => {
+    currentChatRef.current = data;
+    setCurrentChat(data);
+  };
 
   // Conversation between logged in user and another specific user
   const userAndFriendConversation = useSelector(
@@ -60,6 +72,7 @@ function Messenger({
     if (currentChat?.id) {
       dispatch(conversationMessagesThunk(currentChat?.id));
     }
+    setNewMessage("");
   }, [currentChat?.id, dispatch]);
 
   // Ensure socket is the same and handle receiving messages
@@ -68,6 +81,7 @@ function Messenger({
       socket.current = io("ws://localhost:8080");
     }
     socket.current.on("getMessage", (data) => {
+      setTypingIndicator(false);
       setArrivalMessage((prev) => ({
         ...prev,
         text: data.text,
@@ -87,6 +101,51 @@ function Messenger({
   useEffect(() => {
     scrollRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages.length]);
+
+  // Hanlde setting an active typing indicator based on the current chat
+  useEffect(() => {
+    if (
+      currentChat?.id === typingIndicator.convoId &&
+      typingIndicator.isTyping
+    ) {
+      setTypingIndicator({ ...typingIndicator, activeIndicator: true });
+    } else if (currentChat?.id !== typingIndicator.convoId) {
+      setTypingIndicator({ ...typingIndicator, activeIndicator: false });
+    }
+  }, [currentChat?.id, typingIndicator.isTyping]);
+
+  // Handle receiving a typing indicator
+  useEffect(() => {
+    socket.current.on("typingIndicator", (data) => {
+      if (data.message !== "") {
+        setTypingIndicator({
+          ...typingIndicator,
+          convoId: data.conversationId,
+          isTyping: true,
+        });
+      } else {
+        setTypingIndicator({
+          ...typingIndicator,
+          convoId: data.conversationId,
+          isTyping: false,
+        });
+      }
+      // }
+    });
+  }, []);
+
+  // Handle setting a typing indicator
+  const handleTyping = (e) => {
+    const receiverId = currentChat?.members.find(
+      (member) => member.userId !== user.userId
+    );
+    socket.current.emit("userTyping", {
+      senderId: user.userId,
+      receiverId: receiverId.userId,
+      conversationId: currentChat?.id,
+      message: e.target.value,
+    });
+  };
 
   // When a new user logs on to the messenger page, add them to online users
   useEffect(() => {
@@ -160,7 +219,7 @@ function Messenger({
                 {conversations.map((convo) => (
                   <div
                     key={convo.id}
-                    onClick={() => setCurrentChat(convo)}
+                    onClick={() => setCurrentChatRef(convo)}
                     className={
                       convo.id === currentChat.id
                         ? "chatMenuEntryWrapper focused"
@@ -212,11 +271,23 @@ function Messenger({
               </div>
             ))}
           </div>
+          <div className="chatBoxMiddle">
+            {typingIndicator.activeIndicator && (
+              <div className="typingIndicator">
+                <span className="typingIndicatorDot"></span>
+                <span className="typingIndicatorDot"></span>
+                <span className="typingIndicatorDot"></span>
+              </div>
+            )}
+          </div>
           <div className="chatBoxBottom">
             <textarea
               className="chatMessageInput"
               placeholder="Message..."
-              onChange={(e) => setNewMessage(e.target.value)}
+              onChange={(e) => {
+                setNewMessage(e.target.value);
+                handleTyping(e);
+              }}
               value={newMessage}
             ></textarea>
             {newMessage && (

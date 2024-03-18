@@ -54,6 +54,20 @@ io.on("connection", (socket) => {
     console.log(users);
   });
 
+  // User is Typing
+
+  socket.on(
+    "userTyping",
+    ({ senderId, receiverId, conversationId, message }) => {
+      const user = getUser(receiverId);
+      io.to(user?.socketId).emit("typingIndicator", {
+        senderId,
+        conversationId,
+        message,
+      });
+    }
+  );
+
   // Send and Get message
   socket.on("sendMessage", ({ senderId, receiverId, text, conversationId }) => {
     const user = getUser(receiverId);
