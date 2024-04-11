@@ -15,6 +15,7 @@ import ChatUserSearch from "../../components/ChatUserSearch/ChatUserSearch";
 import "./Messenger.css";
 
 function Messenger({
+  loggedInUser,
   loggedInUserFollowingList,
   activeChatSearch,
   setActiveChatSearch,
@@ -57,15 +58,10 @@ function Messenger({
   // All messages for the conversation that is selected for "currentChat"
   const messages = useSelector((state) => state.message.conversationMessages);
 
-  // Logged In User
-  const user = window.sessionStorage.getItem("userInfo")
-    ? JSON.parse(window.sessionStorage.getItem("userInfo"))
-    : "";
-
   // Get all of a user's conversations
   useEffect(() => {
-    dispatch(userConversationsThunk(user.userId));
-  }, [user.userId, dispatch, newConversation?.id]);
+    dispatch(userConversationsThunk(loggedInUser.userId));
+  }, [loggedInUser.userId, dispatch, newConversation?.id]);
 
   // Refetch messages whenever the currentChat changes
   useEffect(() => {
@@ -92,7 +88,7 @@ function Messenger({
         convo.members.some((member) => member.userId === data.senderId)
       );
       if (!conversationExists) {
-        dispatch(userConversationsThunk(user.userId));
+        dispatch(userConversationsThunk(loggedInUser.userId));
       }
     });
   }, []);
@@ -137,10 +133,10 @@ function Messenger({
   // Handle setting a typing indicator
   const handleTyping = (e) => {
     const receiverId = currentChat?.members.find(
-      (member) => member.userId !== user.userId
+      (member) => member.userId !== loggedInUser.userId
     );
     socket.current.emit("userTyping", {
-      senderId: user.userId,
+      senderId: loggedInUser.userId,
       receiverId: receiverId.userId,
       conversationId: currentChat?.id,
       message: e.target.value,
@@ -149,11 +145,11 @@ function Messenger({
 
   // When a new user logs on to the messenger page, add them to online users
   useEffect(() => {
-    socket.current.emit("addUser", user.userId);
+    socket.current.emit("addUser", loggedInUser.userId);
     socket.current.on("getUsers", (users) => {
       setOnlineUsers(users);
     });
-  }, [user.userId]);
+  }, [loggedInUser.userId]);
 
   // Refetch messages if a new message has been received, only if it belongs to the currentChat
   useEffect(() => {
@@ -170,11 +166,11 @@ function Messenger({
   const handleSubmitMessage = (e) => {
     e.preventDefault();
     const receiverId = currentChat?.members.find(
-      (member) => member.userId !== user.userId
+      (member) => member.userId !== loggedInUser.userId
     );
     const message = {
       text: newMessage,
-      senderId: user.userId,
+      senderId: loggedInUser.userId,
       conversationId: currentChat?.id,
     };
     dispatch(newMessageThunk(message))
@@ -183,7 +179,7 @@ function Messenger({
       })
       .then(() => {
         socket.current.emit("sendMessage", {
-          senderId: user.userId,
+          senderId: loggedInUser.userId,
           receiverId: receiverId.userId,
           text: newMessage,
           conversationId: currentChat?.id,
@@ -210,7 +206,7 @@ function Messenger({
           <ChatUserSearch
             setActiveChatSearch={setActiveChatSearch}
             activeChatSearch={activeChatSearch}
-            loggedInUser={user}
+            loggedInUser={loggedInUser}
             conversations={conversations}
           />
           {conversations.length > 0 ? (
@@ -228,7 +224,7 @@ function Messenger({
                   >
                     <Conversation
                       conversation={convo}
-                      currentUser={user}
+                      currentUser={loggedInUser}
                       onlineUsers={onlineUsers}
                       currentChat={currentChat}
                     />
@@ -245,7 +241,7 @@ function Messenger({
           <div className="chatOnlineWrapper">
             <ChatOnline
               onlineUsers={onlineUsers}
-              currentUserId={user.userId}
+              currentUserId={loggedInUser.userId}
               loggedInUserFollowingList={loggedInUserFollowingList}
               conversations={conversations}
             />
@@ -266,7 +262,7 @@ function Messenger({
               <div key={message.id} ref={scrollRef}>
                 <Message
                   message={message}
-                  own={message.senderId === user.userId}
+                  own={message.senderId === loggedInUser.userId}
                 />
               </div>
             ))}

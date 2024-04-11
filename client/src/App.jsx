@@ -9,26 +9,32 @@ import { useEffect, useState } from "react";
 import { userFollowingListThunk } from "./store/user";
 import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
+import { me } from "./store/auth";
 
 function App() {
   const dispatch = useDispatch();
   const [activeSearch, setActiveSearch] = useState(false);
   const [activeChatSearch, setActiveChatSearch] = useState(false);
 
-  const loggedInUser = useSelector((state) => state.auth.user.userInfo);
+  const loggedInUser = useSelector((state) => state.auth.user);
 
   const loggedInUserFollowingList = useSelector(
     (state) => state.user.userFollowingList
   );
-  const token = useSelector((state) => state.auth.user.token);
+
+  useEffect(() => {
+    dispatch(me());
+  }, []);
 
   // Fetch logged in user's followings
   useEffect(() => {
-    dispatch(userFollowingListThunk(loggedInUser?.userId));
+    if (loggedInUser.userId) {
+      dispatch(userFollowingListThunk(loggedInUser?.userId));
+    }
   }, [loggedInUser?.userId]);
 
   // If no user logged in
-  if (!token) {
+  if (!loggedInUser.userId) {
     return (
       <Routes>
         <Route path="/*" element={<Auth />} />
@@ -36,7 +42,7 @@ function App() {
     );
   }
   // If user logged in
-  else if (token) {
+  else if (loggedInUser.userId) {
     return (
       <div
         id="app"

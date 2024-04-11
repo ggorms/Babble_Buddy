@@ -3,6 +3,7 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
+const verify = require("./verify");
 const { body, validationResult } = require("express-validator");
 const { AvatarGenerator } = require("random-avatar-generator");
 
@@ -32,9 +33,9 @@ router.post("/login", async (req, res, next) => {
         return;
       }
 
-      const token = jwt.sign(foundUser.email, process.env.JWT);
+      const token = jwt.sign(foundUser.id, process.env.JWT);
 
-      res.status(200).json({ ...foundUser, token });
+      res.status(200).json({ token });
     }
   } catch (error) {
     console.error(error.message);
@@ -85,9 +86,9 @@ router.post(
             },
           });
 
-          const token = jwt.sign(newUser.email, process.env.JWT);
+          const token = jwt.sign(newUser.id, process.env.JWT);
 
-          res.status(201).json({ ...newUser, token });
+          res.status(201).json({ token });
         }
       } catch (error) {
         console.error(error.message);
@@ -98,5 +99,33 @@ router.post(
     }
   }
 );
+
+// ME
+
+router.get("/me", verify, async (req, res, next) => {
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        id: +req.user,
+      },
+      select: {
+        id: true,
+        email: true,
+        fName: true,
+        lName: true,
+        avatar: true,
+      },
+    });
+    res.status(200).json({
+      userId: user.id,
+      email: user.email,
+      fName: user.fName,
+      lName: user.lName,
+      avatar: user.avatar,
+    });
+  } catch (error) {
+    next(error);
+  }
+});
 
 module.exports = router;

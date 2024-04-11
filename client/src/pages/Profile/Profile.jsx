@@ -9,7 +9,7 @@ import {
 import { useEffect } from "react";
 import FollowingList from "../../components/RelationshipLists/FollowingList";
 import FollowersList from "../../components/RelationshipLists/FollowersList";
-import { logoutThunk } from "../../store/auth";
+import { logout } from "../../store/auth";
 import EmptyState from "../../components/EmptyState/EmptyState";
 import "./Profile.css";
 
@@ -57,10 +57,9 @@ function Profile({ loggedInUser, loggedInUserFollowingList }) {
 
   const handleLogout = (e) => {
     e.preventDefault();
-    dispatch(logoutThunk()).then(() => {
-      navigate("/");
-      location.reload();
-    });
+    dispatch(logout());
+    navigate("/");
+    location.reload();
   };
 
   return (

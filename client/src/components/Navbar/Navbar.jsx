@@ -13,7 +13,7 @@ function Navbar({
 }) {
   const [active, setActive] = useState("nav__menu");
   const [icon, setIcon] = useState("nav__toggler");
-  const user = useSelector((state) => state.auth.user.userInfo);
+  const user = useSelector((state) => state.auth.user);
 
   const navToggle = () => {
     if (active === "nav__menu") {
