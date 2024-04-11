@@ -32,7 +32,7 @@ Create ".env" file inside server folder and populate it with the following
 (replace username and password with your username and password to your machine)
 ```bash
 DATABASE_URL="postgresql://username:password@localhost:5432/babble"
-JWT = "uUbR5diUhR430BfE"
+JWT = "your key here"
 ```
 
 
